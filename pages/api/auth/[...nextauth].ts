@@ -22,7 +22,6 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials, req) {
         // Add logic here to look up the user from the credentials supplied
         const { correo, contrasena } = credentials as any;
-        console.log(correo,contrasena)
         const res = await fetch("http://localhost:8000/login", {
           method: "POST",
           headers: {
