@@ -15,7 +15,6 @@ export default function Home() {
       callbackUrl: "/hola"
     })
   }
-
   return (
     <div>
       <div>

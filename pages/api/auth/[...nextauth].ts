@@ -22,7 +22,7 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials, req) {
         // Add logic here to look up the user from the credentials supplied
         const { correo, contrasena } = credentials as any;
-        const res = await fetch("http://localhost:8000/login", {
+        const res = await fetch("http://localhost:8000/auth/login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -35,7 +35,9 @@ export const authOptions: NextAuthOptions = {
         const user = await res.json();
         if (user) {
           return user.content;
-        } else return null;
+        } else {
+          return null;
+        }
       },
     }),
   ],
@@ -43,17 +45,42 @@ export const authOptions: NextAuthOptions = {
     strategy: "jwt",
   },
   pages: {
-    signIn: "/"
+    signIn: "/",
   },
   callbacks: {
-    async jwt({token,user}){
-      return {...token,...user}
+    async jwt({ token, user, account }) {
+      if (user && account) {
+        return {
+          ...token,
+          ...user,
+          accessTokenExpires: Date.now() + 21600000,
+        };
+      }
+      if (Date.now() < token.accessTokenExpires) {
+        return { ...token, ...user };
+      }
+      const response = await fetch("http://localhost:8000/auth/refresh", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          correo: token.correo,
+        }),
+      });
+      const refreshUser = await response.json();
+      return {
+        ...token,
+        ...user,
+        token: refreshUser.content.refresedToken,
+        accessTokenExpires: Date.now() + 21600000
+      };
     },
-    async session({session,token,user}){
-      session.user = token
-      return session
-    }
-  }
+    async session({ session, token }) {
+      session.user = token;
+      return session;
+    },
+  },
 };
 
 export default NextAuth(authOptions);
