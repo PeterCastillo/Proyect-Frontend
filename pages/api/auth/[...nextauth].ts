@@ -1,3 +1,4 @@
+import { loginService, refreshTokenService } from "@/services/authServices";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
@@ -22,19 +23,12 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials, req) {
         // Add logic here to look up the user from the credentials supplied
         const { correo, contrasena } = credentials as any;
-        const res = await fetch("http://localhost:8000/auth/login", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            correo,
-            contrasena,
-          }),
+        const { json, status } = await loginService({
+          correo: correo,
+          contrasena: contrasena,
         });
-        const user = await res.json();
-        if (user) {
-          return user.content;
+        if (json) {
+          return json.content;
         } else {
           return null;
         }
@@ -59,21 +53,12 @@ export const authOptions: NextAuthOptions = {
       if (Date.now() < token.accessTokenExpires) {
         return { ...token, ...user };
       }
-      const response = await fetch("http://localhost:8000/auth/refresh", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          correo: token.correo,
-        }),
-      });
-      const refreshUser = await response.json();
+      const { json, status } = await refreshTokenService(token.correo);
       return {
         ...token,
         ...user,
-        token: refreshUser.content.refresedToken,
-        accessTokenExpires: Date.now() + 21600000
+        token: json.content.refresedToken,
+        accessTokenExpires: Date.now() + 21600000,
       };
     },
     async session({ session, token }) {
