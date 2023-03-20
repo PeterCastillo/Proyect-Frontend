@@ -1,20 +1,20 @@
-"use client"
+"use client";
 import { useState } from "react";
-import { signIn } from "next-auth/react"
+import { signIn } from "next-auth/react";
 
 export default function Home() {
   const [usuario, setUsuario] = useState({
     correo: "jackcc@gmail.com",
     contrasena: "peter2002",
   });
-  const handleUserLogIn = async() => {
+  const handleUserLogIn = async () => {
     const result = await signIn("credentials", {
       correo: usuario.correo,
       contrasena: usuario.contrasena,
       redirect: true,
-      callbackUrl: "/hola"
-    })
-  }
+      callbackUrl: "/hola",
+    });
+  };
   return (
     <div>
       <div>
@@ -32,7 +32,9 @@ export default function Home() {
           type="text"
           name="contrasena"
           value={usuario.contrasena}
-          onChange={(e) => setUsuario({ ...usuario, contrasena: e.target.value })}
+          onChange={(e) =>
+            setUsuario({ ...usuario, contrasena: e.target.value })
+          }
         />
       </div>
       <button onClick={handleUserLogIn}>Logear</button>

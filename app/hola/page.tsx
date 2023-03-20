@@ -2,6 +2,8 @@
 import { useSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
 import { useState } from "react";
+import style from "@/styles/example.module.scss";
+import { useTheme } from "next-themes";
 
 export default function Home() {
   const [usuarios, setUsuarios] = useState([]);
@@ -16,7 +18,7 @@ export default function Home() {
       });
       const nose = await res.json();
       console.log(nose);
-      console.log(data)
+      console.log(data);
     }
   };
 
@@ -26,7 +28,7 @@ export default function Home() {
       <button onClick={() => signOut()}>DES LOGEAR</button>
       <button onClick={handleUsuarios}>Get Users</button>
       <p>{data?.user.accessTokenExpires}</p>
-      <span>hola</span>
+      <span className={style.cosa}>hola</span>
     </div>
   );
 }
