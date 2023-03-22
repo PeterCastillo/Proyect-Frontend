@@ -7,16 +7,15 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import style from "./navbar.module.scss";
 import { TbDoorExit } from "react-icons/tb";
+import { signOut } from "next-auth/react";
 
 const NavBarOptions: INavOptions[] = sideBarOptions;
 
 export const NavBar = () => {
   const { data: session } = useSession();
-  const [navBarExpanded, setNavBarExpanted] = useState(true);
+  const [navBarExpanded, setNavBarExpanted] = useState(false);
   const [subMenuExpanded, setSubMenuExpanded] = useState(0);
   const pathName = usePathname();
-
-  console.log(session);
 
   const isPathActive = (route: string) => {
     if (pathName) {
@@ -42,14 +41,10 @@ export const NavBar = () => {
           <div key={item.name}>
             <div
               onClick={() => handleExpanded(index)}
-              className={clsx(style.active, style.modulo)}
+              className={clsx(isPathActive(item.name), style.modulo)}
             >
               <span className={style.icon_modulo}>{item.icon}</span>
-              <span
-                className={clsx(
-                  `${!navBarExpanded && style.hidden}`
-                )}
-              >
+              <span className={clsx(`${!navBarExpanded && style.hidden}`)}>
                 {item.name}
               </span>
             </div>
@@ -58,9 +53,12 @@ export const NavBar = () => {
                 return (
                   <li
                     key={item.name}
-                    className={`${
-                      subMenuExpanded == index + 1 && style.showsubmenuitem
-                    }`}
+                    className={clsx(
+                      `${
+                        subMenuExpanded == index + 1 && style.showsubmenuitem
+                      }`,
+                      isPathActive(item.name)
+                    )}
                   >
                     <Link href={`${item.url}`}>
                       {item.icon} {item.name}
@@ -79,7 +77,7 @@ export const NavBar = () => {
             `${!navBarExpanded ? style.hidden : style.user_options}`
           )}
         >
-          <div className={`${subMenuExpanded == 100 && style.showuseroptions}`}>
+          <div onClick={()=> signOut()} className={`${subMenuExpanded == 100 && style.showuseroptions}`}>
             <span>
               <TbDoorExit /> Cerrar Session
             </span>
@@ -99,12 +97,14 @@ export const NavBar = () => {
           <div className={style.img}>
             <span>{session?.user.nombre.split("")[0].toUpperCase()}</span>
           </div>
-          <div className={clsx(`${!navBarExpanded ? style.hidden : style.info}`)}>
+          <div
+            className={clsx(`${!navBarExpanded ? style.hidden : style.info}`)}
+          >
             <span className={`${!navBarExpanded && style.hidden}`}>
               {session?.user.nombre}
             </span>
             <span className={`${!navBarExpanded && style.hidden}`}>
-              {session?.user.correo.toUpperCase()}fghfghgfhgfhgfhgfhfhfh
+              {session?.user.correo.toUpperCase()}
             </span>
           </div>
         </div>

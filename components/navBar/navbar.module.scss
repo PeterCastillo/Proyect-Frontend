@@ -17,8 +17,8 @@
       display: flex;
       flex-direction: column;
       width: 100%;
-      background-color: rgb(17, 17, 17);
       border-radius: 5px 5px 0px 0px;
+      background-color: black;
       div {
         display: flex;
         align-items: center;
@@ -120,6 +120,7 @@
         display: flex;
         align-items: center;
         transition: all 0.15s ease-in-out;
+        border-radius: 5px;
       }
     }
   }

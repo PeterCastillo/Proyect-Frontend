@@ -12,7 +12,7 @@ export default function Home() {
       correo: usuario.correo,
       contrasena: usuario.contrasena,
       redirect: true,
-      callbackUrl: "/mantenimiento",
+      callbackUrl: "/mantenimiento/usuarios",
     });
   };
   return (
