@@ -42,7 +42,7 @@ export const NavBar = () => {
           <div key={item.name}>
             <div
               onClick={() => handleExpanded(index)}
-              className={clsx(isPathActive(item.name), style.modulo)}
+              className={clsx(style.active, style.modulo)}
             >
               <span className={style.icon_modulo}>{item.icon}</span>
               <span
@@ -99,12 +99,12 @@ export const NavBar = () => {
           <div className={style.img}>
             <span>{session?.user.nombre.split("")[0].toUpperCase()}</span>
           </div>
-          <div className={clsx(style.info)}>
+          <div className={clsx(`${!navBarExpanded ? style.hidden : style.info}`)}>
             <span className={`${!navBarExpanded && style.hidden}`}>
               {session?.user.nombre}
             </span>
             <span className={`${!navBarExpanded && style.hidden}`}>
-              {session?.user.correo.toUpperCase()}
+              {session?.user.correo.toUpperCase()}fghfghgfhgfhgfhgfhfhfh
             </span>
           </div>
         </div>
