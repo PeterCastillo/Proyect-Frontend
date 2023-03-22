@@ -2,6 +2,12 @@
 import "./globals.scss";
 import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "next-themes";
+import { Heebo } from "next/font/google";
+
+const heebo = Heebo({
+  subsets: ["latin"],
+  weight: "400",
+});
 
 export default function RootLayout({
   children,
@@ -13,9 +19,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <ThemeProvider attribute="class" disableTransitionOnChange>
-          <SessionProvider session={session}>{children}</SessionProvider>
-        </ThemeProvider>
+        <main className={heebo.className}>
+          <ThemeProvider attribute="class" disableTransitionOnChange>
+            <SessionProvider session={session}>{children}</SessionProvider>
+          </ThemeProvider>
+        </main>
       </body>
     </html>
   );
