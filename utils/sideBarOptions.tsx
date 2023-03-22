@@ -1,5 +1,5 @@
 import { MdKitchen, MdTableRestaurant } from "react-icons/md";
-import { GrHostMaintenance } from "react-icons/gr";
+import { IoSettingsOutline } from "react-icons/io5";
 import { IoRestaurantSharp } from "react-icons/io5";
 import { MdWarehouse, MdFoodBank } from "react-icons/md";
 import { FaUsersCog } from "react-icons/fa";
@@ -21,7 +21,7 @@ export interface INavOptions {
 
 export const sideBarOptions: INavOptions[] = [
   {
-    icon: <GrHostMaintenance />,
+    icon: <IoSettingsOutline />,
     name: "Mantenimiento",
     subMenu: [
       {

@@ -1,0 +1,13 @@
+.layout {
+    display: flex;
+    min-height: 100vh;
+    padding: 5px;
+    gap: 0.5rem;
+    .content {
+        width: 100%;
+        background-color: antiquewhite;
+        @media screen and (max-width: 600px) {
+            margin-left: 80px;
+          }
+    }
+}

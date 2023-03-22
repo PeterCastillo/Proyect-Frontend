@@ -3,7 +3,6 @@ import { useSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
 import { useState } from "react";
 import style from "@/styles/example.module.scss";
-import { useTheme } from "next-themes";
 
 export default function Home() {
   const [usuarios, setUsuarios] = useState([]);

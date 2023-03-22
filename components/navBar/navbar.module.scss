@@ -2,23 +2,47 @@
   background-color: blue;
   border-radius: 10px;
   padding: 1rem;
+  .active {
+    background-color: rgba(116, 169, 238, 0.575);
+  }
   div {
-    span {
+    div {
       font-size: 1.3rem;
       cursor: pointer;
+      white-space: nowrap;
+      border-radius: 5px;
+      display: flex;
+      flex-wrap: nowrap;
+      height: 40px;
+      padding: 0px 10px;
+      gap: 0.5rem;
+      align-items: center;
+      span {
+        display: flex;
+        align-items: center;
+      }
     }
     ul {
+      display: flex;
+      flex-direction: column;
       li {
         height: 0rem;
         overflow: hidden;
         list-style: none;
-        padding-left: 10px;
+        padding-left: 20px;
         transition: all 0.15s ease-in-out;
       }
       .showsubmenuitem {
-        height: 20px;
+        height: 30px;
+        display: flex;
+        align-items: center;
         transition: all 0.15s ease-in-out;
+      }
     }
-    }
+  }
+  @media screen and (max-width: 600px) {
+    position: fixed;
+    max-width: calc(100% - 10px);
+    height: calc(100% - 10px);
   }
 }
