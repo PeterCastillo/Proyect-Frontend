@@ -24,10 +24,6 @@ export default function Home() {
   // console.log(data)
   return (
     <div>
-      <button onClick={() => signOut()}>DES LOGEAR</button>
-      <button onClick={handleUsuarios}>Get Users</button>
-      <p>{data?.user.accessTokenExpires}</p>
-      <span className={style.cosa}>hola</span>
     </div>
   );
 }
