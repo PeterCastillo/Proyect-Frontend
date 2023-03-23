@@ -104,7 +104,7 @@ export const NavBar = () => {
               {session?.user.nombre}
             </span>
             <span className={`${!navBarExpanded && style.hidden}`}>
-              {session?.user.correo.toUpperCase()}
+              {session?.user.correo.toUpperCase()}fghhfhfhgfhfhfhgfgfhgfh
             </span>
           </div>
         </div>
