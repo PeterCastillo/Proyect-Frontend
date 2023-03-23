@@ -8,6 +8,8 @@ import { useState } from "react";
 import style from "./navbar.module.scss";
 import { TbDoorExit } from "react-icons/tb";
 import { signOut } from "next-auth/react";
+import { useTheme } from "next-themes"
+import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 
 const NavBarOptions: INavOptions[] = sideBarOptions;
 
@@ -15,6 +17,7 @@ export const NavBar = () => {
   const { data: session } = useSession();
   const [navBarExpanded, setNavBarExpanted] = useState(false);
   const [subMenuExpanded, setSubMenuExpanded] = useState(0);
+  const { theme, setTheme } = useTheme()
   const pathName = usePathname();
 
   const isPathActive = (route: string) => {
@@ -35,7 +38,11 @@ export const NavBar = () => {
 
   return (
     <div className={style.navbar}>
-      <span onClick={() => setNavBarExpanted(!navBarExpanded)}>hola</span>
+      <div className={style.toggle}>
+        <span onClick={() => setNavBarExpanted(!navBarExpanded)}>
+          {navBarExpanded ? <IoIosArrowBack /> : <IoIosArrowForward />}
+        </span>
+      </div>
       {NavBarOptions.map((item, index) => {
         return (
           <div key={item.name}>
@@ -61,7 +68,7 @@ export const NavBar = () => {
                     )}
                   >
                     <Link href={`${item.url}`}>
-                      {item.icon} {item.name}
+                     {item.name}
                     </Link>
                   </li>
                 );
@@ -72,12 +79,19 @@ export const NavBar = () => {
       })}
 
       <div className={style.user}>
+        <div>
+          <span onClick={()=> setTheme('dark')}>Dark</span>
+          <span onClick={()=> setTheme('light')}>Light</span>
+        </div>
         <div
           className={clsx(
             `${!navBarExpanded ? style.hidden : style.user_options}`
           )}
         >
-          <div onClick={()=> signOut()} className={`${subMenuExpanded == 100 && style.showuseroptions}`}>
+          <div
+            onClick={() => signOut()}
+            className={`${subMenuExpanded == 100 && style.showuseroptions}`}
+          >
             <span>
               <TbDoorExit /> Cerrar Session
             </span>

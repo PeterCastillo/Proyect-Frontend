@@ -1,12 +1,13 @@
 .layout {
-    display: flex;
-    min-height: 100vh;
-    padding: 5px;
-    gap: 0.5rem;
-    .content {
-        width: 100%;
-        @media screen and (max-width: 600px) {
-            margin-left: 89.5px;
-          }
+  display: flex;
+  min-height: 100vh;
+  padding: 5px;
+  gap: 0.5rem;
+  .content {
+    flex-grow: 1;
+    border-radius: 5px;
+    @media screen and (max-width: 600px) {
+      margin-left: 74px;
     }
+  }
 }
