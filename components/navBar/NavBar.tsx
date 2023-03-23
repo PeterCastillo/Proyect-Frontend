@@ -8,7 +8,9 @@ import { useState } from "react";
 import style from "./navbar.module.scss";
 import { TbDoorExit } from "react-icons/tb";
 import { signOut } from "next-auth/react";
-import { useTheme } from "next-themes"
+import { useTheme } from "next-themes";
+import { BiSun } from "react-icons/bi"
+import { BsFillMoonFill } from "react-icons/bs"
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 
 const NavBarOptions: INavOptions[] = sideBarOptions;
@@ -17,7 +19,7 @@ export const NavBar = () => {
   const { data: session } = useSession();
   const [navBarExpanded, setNavBarExpanted] = useState(false);
   const [subMenuExpanded, setSubMenuExpanded] = useState(0);
-  const { theme, setTheme } = useTheme()
+  const { theme, setTheme } = useTheme();
   const pathName = usePathname();
 
   const isPathActive = (route: string) => {
@@ -67,9 +69,7 @@ export const NavBar = () => {
                       isPathActive(item.name)
                     )}
                   >
-                    <Link href={`${item.url}`}>
-                     {item.name}
-                    </Link>
+                    <Link href={`${item.url}`}>{item.name}</Link>
                   </li>
                 );
               })}
@@ -79,9 +79,22 @@ export const NavBar = () => {
       })}
 
       <div className={style.user}>
-        <div>
-          <span onClick={()=> setTheme('dark')}>Dark</span>
-          <span onClick={()=> setTheme('light')}>Light</span>
+        <div className={style.toggle_theme}>
+          <div
+            onClick={() => setTheme("dark")}
+            className={clsx(
+              `${theme === "dark" && style.optionactive}`,
+              style.toogleoption
+            )}
+          >
+            <div><BsFillMoonFill/></div> <div className={`${!navBarExpanded && style.hidden}`}>Dark</div>
+          </div>
+          <div onClick={() => setTheme("light")} className={clsx(
+              `${theme === "light" && style.optionactive}`,
+              style.toogleoption
+            )}>
+            <div><BiSun/></div> <div className={`${!navBarExpanded && style.hidden}`}>Light</div>
+          </div>
         </div>
         <div
           className={clsx(
@@ -118,7 +131,7 @@ export const NavBar = () => {
               {session?.user.nombre}
             </span>
             <span className={`${!navBarExpanded && style.hidden}`}>
-              {session?.user.correo.toUpperCase()}fghhfhfhgfhfhfhgfgfhgfh
+              {session?.user.correo.toUpperCase()}
             </span>
           </div>
         </div>
