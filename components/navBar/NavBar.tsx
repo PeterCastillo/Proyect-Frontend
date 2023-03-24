@@ -12,6 +12,8 @@ import { useTheme } from "next-themes";
 import { BiSun } from "react-icons/bi"
 import { BsFillMoonFill } from "react-icons/bs"
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
+import { AiOutlineDown } from "react-icons/ai"
+import { TbArrowsMoveVertical } from "react-icons/tb"
 
 const NavBarOptions: INavOptions[] = sideBarOptions;
 
@@ -56,6 +58,7 @@ export const NavBar = () => {
               <span className={clsx(`${!navBarExpanded && style.hidden}`)}>
                 {item.name}
               </span>
+              <span className={`${!navBarExpanded ? style.hidden : clsx(style.icon_modulo_drop, subMenuExpanded === index + 1 && style.icon_rotate)}`}><AiOutlineDown/></span>
             </div>
             <ul className={`${!navBarExpanded && style.hidden}`}>
               {item.subMenu.map((item) => {
@@ -109,16 +112,6 @@ export const NavBar = () => {
               <TbDoorExit /> Cerrar Session
             </span>
           </div>
-          <div className={`${subMenuExpanded == 100 && style.showuseroptions}`}>
-            <span>
-              <TbDoorExit /> Cerrar Session
-            </span>
-          </div>
-          <div className={`${subMenuExpanded == 100 && style.showuseroptions}`}>
-            <span>
-              <TbDoorExit /> Cerrar Session
-            </span>
-          </div>
         </div>
         <div className={style.user_data} onClick={() => handleExpanded(99)}>
           <div className={style.img}>
@@ -133,6 +126,10 @@ export const NavBar = () => {
             <span className={`${!navBarExpanded && style.hidden}`}>
               {session?.user.correo.toUpperCase()}
             </span>
+            
+          </div>
+          <div className={style.drop_user_options}>
+            <TbArrowsMoveVertical/>
           </div>
         </div>
       </div>
