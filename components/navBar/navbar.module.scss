@@ -1,6 +1,8 @@
 @import "../styles/themes";
 
 .navbar {
+  position: fixed;
+  height: calc(100% - 10px);
   @include theme() {
     background-color: theme-get("bg-color-nv");
     color: theme-get("text-color-nv");
@@ -195,11 +197,6 @@
         border-radius: 5px;
       }
     }
-  }
-  @media screen and (max-width: 600px) {
-    position: fixed;
-    max-width: calc(100% - 10px);
-    height: calc(100% - 10px);
   }
   .hidden {
     display: none;

@@ -9,17 +9,22 @@ import style from "./navbar.module.scss";
 import { TbDoorExit } from "react-icons/tb";
 import { signOut } from "next-auth/react";
 import { useTheme } from "next-themes";
-import { BiSun } from "react-icons/bi"
-import { BsFillMoonFill } from "react-icons/bs"
+import { BiSun } from "react-icons/bi";
+import { BsFillMoonFill } from "react-icons/bs";
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
-import { AiOutlineDown } from "react-icons/ai"
-import { TbArrowsMoveVertical } from "react-icons/tb"
+import { AiOutlineDown } from "react-icons/ai";
+import { TbArrowsMoveVertical } from "react-icons/tb";
 
 const NavBarOptions: INavOptions[] = sideBarOptions;
 
-export const NavBar = () => {
+export const NavBar = ({
+  navBarExpanded,
+  setNavBarExpanted,
+}: {
+  navBarExpanded: boolean;
+  setNavBarExpanted: (state: boolean) => void;
+}) => {
   const { data: session } = useSession();
-  const [navBarExpanded, setNavBarExpanted] = useState(false);
   const [subMenuExpanded, setSubMenuExpanded] = useState(0);
   const { theme, setTheme } = useTheme();
   const pathName = usePathname();
@@ -58,7 +63,18 @@ export const NavBar = () => {
               <span className={clsx(`${!navBarExpanded && style.hidden}`)}>
                 {item.name}
               </span>
-              <span className={`${!navBarExpanded ? style.hidden : clsx(style.icon_modulo_drop, subMenuExpanded === index + 1 && style.icon_rotate)}`}><AiOutlineDown/></span>
+              <span
+                className={`${
+                  !navBarExpanded
+                    ? style.hidden
+                    : clsx(
+                        style.icon_modulo_drop,
+                        subMenuExpanded === index + 1 && style.icon_rotate
+                      )
+                }`}
+              >
+                <AiOutlineDown />
+              </span>
             </div>
             <ul className={`${!navBarExpanded && style.hidden}`}>
               {item.subMenu.map((item) => {
@@ -90,13 +106,22 @@ export const NavBar = () => {
               style.toogleoption
             )}
           >
-            <div><BsFillMoonFill/></div> <div className={`${!navBarExpanded && style.hidden}`}>Dark</div>
+            <div>
+              <BsFillMoonFill />
+            </div>{" "}
+            <div className={`${!navBarExpanded && style.hidden}`}>Dark</div>
           </div>
-          <div onClick={() => setTheme("light")} className={clsx(
+          <div
+            onClick={() => setTheme("light")}
+            className={clsx(
               `${theme === "light" && style.optionactive}`,
               style.toogleoption
-            )}>
-            <div><BiSun/></div> <div className={`${!navBarExpanded && style.hidden}`}>Light</div>
+            )}
+          >
+            <div>
+              <BiSun />
+            </div>{" "}
+            <div className={`${!navBarExpanded && style.hidden}`}>Light</div>
           </div>
         </div>
         <div
@@ -126,10 +151,9 @@ export const NavBar = () => {
             <span className={`${!navBarExpanded && style.hidden}`}>
               {session?.user.correo.toUpperCase()}
             </span>
-            
           </div>
           <div className={style.drop_user_options}>
-            <TbArrowsMoveVertical/>
+            <TbArrowsMoveVertical />
           </div>
         </div>
       </div>

@@ -6,8 +6,13 @@
   .content {
     flex-grow: 1;
     border-radius: 5px;
-    @media screen and (max-width: 600px) {
-      margin-left: 74px;
+    overflow-y: auto;
+    margin-left: 70px;
+    &.nav_expanded {
+      margin-left: 250px;
+      @media screen and (max-width: 600px) {
+        margin-left: 70px;
+      }
     }
   }
 }
