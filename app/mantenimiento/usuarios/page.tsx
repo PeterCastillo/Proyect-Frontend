@@ -1,9 +1,32 @@
 "use client";
 import style from "./page.module.scss";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Table } from "@/components/table/Table";
+import { IUsuario } from "@/types/usuarioInterfaces";
+import { getUserBySucursalService } from "@/services/usuarioServices";
+import { useSession } from "next-auth/react";
 
 export default function Page() {
-  const [render, setRender] = useState(2);
+  const { data: session, status } = useSession();
+  const [render, setRender] = useState(0);
+  const [usuariosList, setUsuariosList] = useState<IUsuario[]>([]);
+
+  const getUsuariosList = async () => {
+    if (session) {
+      const response = await getUserBySucursalService(
+        session.user.sucursal,
+        session.user.token
+      );
+      if (response.status === 200) {
+        setUsuariosList(response.json.content);
+      }
+    }
+  };
+
+  useEffect(() => {
+    getUsuariosList();
+  }, [status]);
+
   return (
     <div className={style.page}>
       <span className={style.title}>Usuario</span>
@@ -26,158 +49,21 @@ export default function Page() {
           Editar
         </span>
       </div>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem velit
-        impedit asperiores soluta illo. Blanditiis, delectus tempora. Ut
-        excepturi corrupti nostrum alias assumenda eius magni accusantium
-        laborum, atque sapiente consectetur.
-      </p>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem velit
-        impedit asperiores soluta illo. Blanditiis, delectus tempora. Ut
-        excepturi corrupti nostrum alias assumenda eius magni accusantium
-        laborum, atque sapiente consectetur.
-      </p>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem velit
-        impedit asperiores soluta illo. Blanditiis, delectus tempora. Ut
-        excepturi corrupti nostrum alias assumenda eius magni accusantium
-        laborum, atque sapiente consectetur.
-      </p>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem velit
-        impedit asperiores soluta illo. Blanditiis, delectus tempora. Ut
-        excepturi corrupti nostrum alias assumenda eius magni accusantium
-        laborum, atque sapiente consectetur.
-      </p>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem velit
-        impedit asperiores soluta illo. Blanditiis, delectus tempora. Ut
-        excepturi corrupti nostrum alias assumenda eius magni accusantium
-        laborum, atque sapiente consectetur.
-      </p>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem velit
-        impedit asperiores soluta illo. Blanditiis, delectus tempora. Ut
-        excepturi corrupti nostrum alias assumenda eius magni accusantium
-        laborum, atque sapiente consectetur.
-      </p>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem velit
-        impedit asperiores soluta illo. Blanditiis, delectus tempora. Ut
-        excepturi corrupti nostrum alias assumenda eius magni accusantium
-        laborum, atque sapiente consectetur.
-      </p>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem velit
-        impedit asperiores soluta illo. Blanditiis, delectus tempora. Ut
-        excepturi corrupti nostrum alias assumenda eius magni accusantium
-        laborum, atque sapiente consectetur.
-      </p>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem velit
-        impedit asperiores soluta illo. Blanditiis, delectus tempora. Ut
-        excepturi corrupti nostrum alias assumenda eius magni accusantium
-        laborum, atque sapiente consectetur.
-      </p>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem velit
-        impedit asperiores soluta illo. Blanditiis, delectus tempora. Ut
-        excepturi corrupti nostrum alias assumenda eius magni accusantium
-        laborum, atque sapiente consectetur.
-      </p>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem velit
-        impedit asperiores soluta illo. Blanditiis, delectus tempora. Ut
-        excepturi corrupti nostrum alias assumenda eius magni accusantium
-        laborum, atque sapiente consectetur.
-      </p>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem velit
-        impedit asperiores soluta illo. Blanditiis, delectus tempora. Ut
-        excepturi corrupti nostrum alias assumenda eius magni accusantium
-        laborum, atque sapiente consectetur.
-      </p>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem velit
-        impedit asperiores soluta illo. Blanditiis, delectus tempora. Ut
-        excepturi corrupti nostrum alias assumenda eius magni accusantium
-        laborum, atque sapiente consectetur.
-      </p>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem velit
-        impedit asperiores soluta illo. Blanditiis, delectus tempora. Ut
-        excepturi corrupti nostrum alias assumenda eius magni accusantium
-        laborum, atque sapiente consectetur.
-      </p>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem velit
-        impedit asperiores soluta illo. Blanditiis, delectus tempora. Ut
-        excepturi corrupti nostrum alias assumenda eius magni accusantium
-        laborum, atque sapiente consectetur.
-      </p>
-
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem velit
-        impedit asperiores soluta illo. Blanditiis, delectus tempora. Ut
-        excepturi corrupti nostrum alias assumenda eius magni accusantium
-        laborum, atque sapiente consectetur.
-      </p>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem velit
-        impedit asperiores soluta illo. Blanditiis, delectus tempora. Ut
-        excepturi corrupti nostrum alias assumenda eius magni accusantium
-        laborum, atque sapiente consectetur.
-      </p>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem velit
-        impedit asperiores soluta illo. Blanditiis, delectus tempora. Ut
-        excepturi corrupti nostrum alias assumenda eius magni accusantium
-        laborum, atque sapiente consectetur.
-      </p>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem velit
-        impedit asperiores soluta illo. Blanditiis, delectus tempora. Ut
-        excepturi corrupti nostrum alias assumenda eius magni accusantium
-        laborum, atque sapiente consectetur.
-      </p>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem velit
-        impedit asperiores soluta illo. Blanditiis, delectus tempora. Ut
-        excepturi corrupti nostrum alias assumenda eius magni accusantium
-        laborum, atque sapiente consectetur.
-      </p>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem velit
-        impedit asperiores soluta illo. Blanditiis, delectus tempora. Ut
-        excepturi corrupti nostrum alias assumenda eius magni accusantium
-        laborum, atque sapiente consectetur.
-      </p>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem velit
-        impedit asperiores soluta illo. Blanditiis, delectus tempora. Ut
-        excepturi corrupti nostrum alias assumenda eius magni accusantium
-        laborum, atque sapiente consectetur.
-      </p>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem velit
-        impedit asperiores soluta illo. Blanditiis, delectus tempora. Ut
-        excepturi corrupti nostrum alias assumenda eius magni accusantium
-        laborum, atque sapiente consectetur.
-      </p>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem velit
-        impedit asperiores soluta illo. Blanditiis, delectus tempora. Ut
-        excepturi corrupti nostrum alias assumenda eius magni accusantium
-        laborum, atque sapiente consectetur.
-      </p>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem velit
-        impedit asperiores soluta illo. Blanditiis, delectus tempora. Ut
-        excepturi corrupti nostrum alias assumenda eius magni accusantium
-        laborum, atque sapiente consectetur.
-      </p>
-      
+      <Table
+        properties={[
+          { nombre: "Nombre", propertie: "nombre" },
+          { nombre: "Correo", propertie: "correo" },
+          { nombre: "Contraseña", propertie: "contrasena" },
+          { nombre: "accesos", propertie: "accesos" },
+          { nombre: "ESTADO", propertie: "estado" },
+        ]}
+        list={usuariosList.map((item) => {
+          return {
+            ...item,
+            estado: true,
+          };
+        })}
+      />
     </div>
   );
 }

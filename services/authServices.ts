@@ -1,4 +1,5 @@
-import { ILogin } from "@/types/authInterfaces"
+import { ILogin } from "@/types/auth/authInterfaces"
+
 
 const apiUrl = process.env.NEXT_PUBLIC_BACKEND_URL
 
