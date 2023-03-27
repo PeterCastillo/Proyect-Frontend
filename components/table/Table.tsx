@@ -22,7 +22,7 @@ export const Table = ({
       const element = properties[index];
       emptyObject = {
         ...emptyObject,
-        [element.propertie]: "gola",
+        [element.propertie]: "",
       };
     } 
     const newListReformed = list
@@ -30,7 +30,7 @@ export const Table = ({
     for (let index = 0; index < missingObjects; index++) {
         newListReformed.push(emptyObject)
     }
-    return newListReformed.map((item: any) => {
+    return newListReformed.map((item: any, index) => {
       const values = [];
       for (let index = 0; index < properties.length; index++) {
         const element = properties[index];
@@ -38,23 +38,23 @@ export const Table = ({
         values.push(value);
       }
       return (
-        <tr>
-          {values.map((value) => {
+        <tr key={index}>
+          {values.map((value,index) => {
             if (typeof value === "boolean") {
               return (
-                <td>
+                <td key={index}>
                   <button>Hola</button>
                 </td>
               );
             }
             if (typeof value != "string") {
               return (
-                <td>
+                <td key={index}>
                   <select name="" id=""></select>
                 </td>
               );
             }
-            return <td>{value}</td>;
+            return <td key={index}>{value}</td>;
           })}
         </tr>
       );
