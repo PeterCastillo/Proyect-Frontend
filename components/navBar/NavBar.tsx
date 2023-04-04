@@ -102,8 +102,8 @@ export const NavBar = ({
           <div
             onClick={() => setTheme("dark")}
             className={clsx(
-              `${theme === "dark" && style.optionactive}`,
-              style.toogleoption
+              style.toogleoption,
+              `${theme === "dark" && style.optionactive}`
             )}
           >
             <div>
@@ -114,8 +114,9 @@ export const NavBar = ({
           <div
             onClick={() => setTheme("light")}
             className={clsx(
-              `${theme === "light" && style.optionactive}`,
-              style.toogleoption
+              style.toogleoption,
+              `${theme === "light" && style.optionactive}`
+              
             )}
           >
             <div>

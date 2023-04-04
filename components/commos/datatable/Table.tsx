@@ -1,4 +1,3 @@
-import { IUsuario } from "@/types/usuarioInterfaces";
 import style from "./table.module.scss";
 
 export const Table = ({
@@ -13,7 +12,7 @@ export const Table = ({
 }) => {
   const renderThead = () => {
     return properties.map((item) => (
-      <th key={item.propertie}>{item.nombre}</th>
+      <th  style={{width: `${100 / properties.length}%`}} key={item.propertie}>{item.nombre}</th>
     ));
   };
   const renderTBody = () => {

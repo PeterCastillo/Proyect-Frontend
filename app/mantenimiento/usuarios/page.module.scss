@@ -19,7 +19,8 @@
     display: flex;
     @include theme() {
       background-color: theme-get("bg-color-tb");
-      border: solid 0.5px theme-get("bg-color-boder-tb");
+      // border: solid 0.5px theme-get("bg-color-boder-tb");
+      border: solid 0.5px rgba(226, 226, 226, 0.5);
     }
     gap: 3px;
     height: 40px;
@@ -41,7 +42,8 @@
       &.tabactive {
         @include theme() {
           background-color: theme-get("bg-color-select-tb");
-          border: solid 0.5px theme-get("bg-color-boder-tb");
+          // border: solid 0.5px theme-get("bg-color-boder-tb");
+          border: solid 0.5px rgba(226, 226, 226, 0.5);
         }
       }
       &.editdescative {

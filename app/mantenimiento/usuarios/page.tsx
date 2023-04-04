@@ -1,7 +1,7 @@
 "use client";
 import style from "./page.module.scss";
 import { useState, useEffect } from "react";
-import { Table } from "@/components/table/Table";
+import { Table } from "@/components/commos/datatable/Table";
 import { IUsuario } from "@/types/usuarioInterfaces";
 import { getUserBySucursalService } from "@/services/usuarioServices";
 import { useSession } from "next-auth/react";
@@ -27,6 +27,30 @@ export default function Page() {
     getUsuariosList();
   }, [status]);
 
+  const renderComponet = () => {
+    switch (render) {
+      case 0:
+        return (
+          <div>
+            <Table
+              properties={[
+                { nombre: "Nombre", propertie: "nombre" },
+                { nombre: "Correo", propertie: "correo" },
+                { nombre: "Contraseña", propertie: "contrasena" },
+                { nombre: "accesos", propertie: "accesos" },
+                { nombre: "ESTADO", propertie: "estado" },
+              ]}
+              list={usuariosList.map((item) => {
+                return {
+                  ...item,
+                  estado: true,
+                };
+              })}
+            />
+          </div>
+        );
+    }
+  };
   return (
     <div className={style.page}>
       <span className={style.title}>Usuario</span>
@@ -49,21 +73,7 @@ export default function Page() {
           Editar
         </span>
       </div>
-      <Table
-        properties={[
-          { nombre: "Nombre", propertie: "nombre" },
-          { nombre: "Correo", propertie: "correo" },
-          { nombre: "Contraseña", propertie: "contrasena" },
-          { nombre: "accesos", propertie: "accesos" },
-          { nombre: "ESTADO", propertie: "estado" },
-        ]}
-        list={usuariosList.map((item) => {
-          return {
-            ...item,
-            estado: true,
-          };
-        })}
-      />
+      <div>{renderComponet()}</div>
     </div>
   );
 }

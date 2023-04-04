@@ -1,0 +1,47 @@
+@import "../styles/themes";
+
+.table {
+  display: block;
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 14px;
+  border: solid 0.5px rgba(226, 226, 226, 0.5);
+  border-radius: 5px;
+  border-collapse: separate;
+  border-spacing: 0px;
+  overflow: auto;
+  table-layout: auto;
+  thead {
+    tr {
+      th {
+        font-weight: bold;
+        text-transform: uppercase;
+        cursor: default;
+        @include theme() {
+          background-color: theme-get("bg-color-tb");
+        }
+        &:first-child {
+          border-radius: 3px 0px 0px 0px;
+        }
+        &:last-child {
+          border-radius: 0px 3px 0px 0px;
+        }
+      }
+    }
+  }
+  th,
+  td {
+    white-space: nowrap;
+    height: 2rem;
+    text-align: left;
+    padding: 10px;
+  }
+  tbody {
+    tr {
+      &:hover {
+        background-color: rgba(226, 226, 226, 0.5);
+        cursor: pointer;
+      }
+    }
+  }
+}
