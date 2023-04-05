@@ -12,9 +12,12 @@ export const Table = ({
 }) => {
   const renderThead = () => {
     return properties.map((item) => (
-      <th  style={{width: `${100 / properties.length}%`}} key={item.propertie}>{item.nombre}</th>
+      <th style={{ width: `${100 / properties.length}%` }} key={item.propertie}>
+        {item.nombre}
+      </th>
     ));
   };
+
   const renderTBody = () => {
     let emptyObject = {};
     for (let index = 0; index < properties.length; index++) {
@@ -23,11 +26,11 @@ export const Table = ({
         ...emptyObject,
         [element.propertie]: "",
       };
-    } 
-    const newListReformed = list
-    const missingObjects = 10 - Number(list.length.toString().split("").at(-1))
+    }
+    const newListReformed = list;
+    const missingObjects = 10 - Number(list.length.toString().split("").at(-1));
     for (let index = 0; index < missingObjects; index++) {
-        newListReformed.push(emptyObject)
+      newListReformed.push(emptyObject);
     }
     return newListReformed.map((item: any, index) => {
       const values = [];
@@ -38,7 +41,12 @@ export const Table = ({
       }
       return (
         <tr key={index}>
-          {values.map((value,index) => {
+          <td className={style.item}>
+            {values.filter((item) => item === "").length == values.length
+              ? "ㅤ"
+              : index + 1}
+          </td>
+          {values.map((value, index) => {
             if (typeof value === "boolean") {
               return (
                 <td key={index}>
@@ -59,12 +67,21 @@ export const Table = ({
       );
     });
   };
+
   return (
-    <table className={style.table}>
-      <thead>
-        <tr>{renderThead()}</tr>
-      </thead>
-      <tbody>{renderTBody()}</tbody>
-    </table>
+    <>
+      <table className={style.table}>
+        <thead>
+          <tr>
+            <th className={style.item}>ITEM</th>
+            {renderThead()}
+          </tr>
+        </thead>
+        <tbody>{renderTBody()}</tbody>
+      </table>
+      <div className={style.pagination}>
+
+      </div>
+    </>
   );
 };

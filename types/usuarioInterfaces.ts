@@ -4,6 +4,5 @@ export interface IUsuario {
   correo: string;
   contrasena: string;
   accesos: string[];
-  constrasena: string;
   sucursal: string;
 }

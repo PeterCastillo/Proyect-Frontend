@@ -27,23 +27,47 @@ export default function Page() {
     getUsuariosList();
   }, [status]);
 
+  const renderBtns = () => {
+    switch (render) {
+      case 0:
+        return (
+          <>
+            <button className={style.editar}>EDITAR</button>
+          </>
+        );
+      case 1:
+        return (
+          <>
+            <button className={style.clean}>LIMPIAR</button>
+            <button className={style.done}>CREAR</button>
+          </>
+        );
+      case 2:
+        return (
+          <>
+            <button className={style.clean}>DESHACER</button>
+            <button className={style.done}>ACTUALIZAR</button>
+          </>
+        );
+    }
+  };
+
   const renderComponet = () => {
     switch (render) {
       case 0:
         return (
-          <div>
+          <div className={style.container_table}>
             <Table
               properties={[
                 { nombre: "Nombre", propertie: "nombre" },
                 { nombre: "Correo", propertie: "correo" },
                 { nombre: "Contraseña", propertie: "contrasena" },
                 { nombre: "accesos", propertie: "accesos" },
-                { nombre: "ESTADO", propertie: "estado" },
               ]}
               list={usuariosList.map((item) => {
                 return {
                   ...item,
-                  estado: true,
+                  contrasena: "•••••••••••••••••••",
                 };
               })}
             />
@@ -54,26 +78,29 @@ export default function Page() {
   return (
     <div className={style.page}>
       <span className={style.title}>Usuario</span>
-      <div className={style.tab}>
-        <span
-          className={`${render == 0 && style.tabactive}`}
-          onClick={() => setRender(0)}
-        >
-          Lista
-        </span>
-        <span
-          className={`${render == 1 && style.tabactive}`}
-          onClick={() => setRender(1)}
-        >
-          Crear
-        </span>
-        <span
-          className={`${render == 2 ? style.tabactive : style.editdescative}`}
-        >
-          Editar
-        </span>
+      <div className={style.options}>
+        <div className={style.tab}>
+          <span
+            className={`${render == 0 && style.tabactive}`}
+            onClick={() => setRender(0)}
+          >
+            Lista
+          </span>
+          <span
+            className={`${render == 1 && style.tabactive}`}
+            onClick={() => setRender(1)}
+          >
+            Crear
+          </span>
+          <span
+            className={`${render == 2 ? style.tabactive : style.editdescative}`}
+          >
+            Editar
+          </span>
+        </div>
+        <div className={style.btns}>{renderBtns()}</div>
       </div>
-      <div>{renderComponet()}</div>
+      <div className={style.content}>{renderComponet()}</div>
     </div>
   );
 }
