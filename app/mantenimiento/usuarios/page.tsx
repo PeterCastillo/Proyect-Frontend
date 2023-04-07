@@ -9,7 +9,12 @@ import { useSession } from "next-auth/react";
 export default function Page() {
   const { data: session, status } = useSession();
   const [render, setRender] = useState(0);
+
   const [usuariosList, setUsuariosList] = useState<IUsuario[]>([]);
+  const [newUsuario, setNewUsuario] = useState();
+  const [editableUsuario, setEditableUsuario] = useState();
+
+  const [page, setPage] = useState<number>(0);
 
   const getUsuariosList = async () => {
     if (session) {
@@ -58,6 +63,8 @@ export default function Page() {
         return (
           <div className={style.container_table}>
             <Table
+              page={page}
+              setPage={setPage}
               properties={[
                 { nombre: "Nombre", propertie: "nombre" },
                 { nombre: "Correo", propertie: "correo" },
