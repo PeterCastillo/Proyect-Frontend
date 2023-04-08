@@ -6,3 +6,11 @@ export interface IUsuario {
   accesos: string[];
   sucursal: string;
 }
+
+export interface INewUsuario {
+  nombre: string;
+  correo: string;
+  contrasena: string;
+  accesos: string[];
+  sucursal: string;
+}

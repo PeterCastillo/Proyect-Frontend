@@ -1,9 +1,8 @@
-import { clsx } from "@/lib/clsx";
 import style from "./table.module.scss";
 import { BiFirstPage, BiLastPage } from "react-icons/bi";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
-export const Table = ({
+const Table = ({
   properties,
   list,
   page,
@@ -137,3 +136,5 @@ export const Table = ({
     </>
   );
 };
+
+export default Table

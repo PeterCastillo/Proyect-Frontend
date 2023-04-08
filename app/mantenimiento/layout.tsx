@@ -1,5 +1,5 @@
 "use client";
-import { NavBar } from "@/components/navBar/NavBar";
+import NavBar from "@/components/commos/navBar/NavBar";
 import { clsx } from "@/lib/clsx";
 import { useState } from "react";
 import style from "./layout.module.scss";

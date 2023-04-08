@@ -1,6 +1,6 @@
 const apiUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
-export const getUserBySucursalService = async (
+export const getUsersBySucursalService = async (
   sucursal_id: string,
   token: string
 ) => {

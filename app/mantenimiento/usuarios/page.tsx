@@ -1,34 +1,53 @@
 "use client";
-import style from "./page.module.scss";
+import style from "@/styles/format.module.scss";
 import { useState, useEffect } from "react";
-import { Table } from "@/components/commos/datatable/Table";
-import { IUsuario } from "@/types/usuarioInterfaces";
-import { getUserBySucursalService } from "@/services/usuarioServices";
+import {
+  INewUsuario,
+  IUsuario,
+} from "@/types/modulos/mantenimiento/usuarioInterfaces";
+import { getUsersBySucursalService } from "@/services/modulos/mantenimiento/usuarioServices";
 import { useSession } from "next-auth/react";
+import UsuarioTable from "@/components/modulos/mantenimiento/usuario/UsuarioDataTable";
+import UsuarioCreate from "@/components/modulos/mantenimiento/usuario/UsuarioCreateForm";
 
 export default function Page() {
   const { data: session, status } = useSession();
   const [render, setRender] = useState(0);
 
   const [usuariosList, setUsuariosList] = useState<IUsuario[]>([]);
-  const [newUsuario, setNewUsuario] = useState();
+  const [newUsuario, setNewUsuario] = useState<INewUsuario>({
+    nombre: "",
+    correo: "",
+    contrasena: "",
+    accesos: [],
+    sucursal: "",
+  });
   const [editableUsuario, setEditableUsuario] = useState();
 
   const [page, setPage] = useState<number>(0);
 
   const getUsuariosList = async () => {
+    console.log(4);
     if (session) {
-      const response = await getUserBySucursalService(
+      const response = await getUsersBySucursalService(
         session.user.sucursal,
         session.user.token
       );
       if (response.status === 200) {
-        setUsuariosList(response.json.content);
+        setUsuariosList([
+          ...response.json.content,
+          ...response.json.content,
+          ...response.json.content,
+          ...response.json.content,
+          ...response.json.content,
+          ...response.json.content,
+        ]);
       }
     }
   };
 
   useEffect(() => {
+    console.log(2);
     getUsuariosList();
   }, [status]);
 
@@ -58,30 +77,31 @@ export default function Page() {
   };
 
   const renderComponet = () => {
+    console.log(3);
     switch (render) {
       case 0:
         return (
-          <div className={style.container_table}>
-            <Table
-              page={page}
-              setPage={setPage}
-              properties={[
-                { nombre: "Nombre", propertie: "nombre" },
-                { nombre: "Correo", propertie: "correo" },
-                { nombre: "Contraseña", propertie: "contrasena" },
-                { nombre: "accesos", propertie: "accesos" },
-              ]}
-              list={usuariosList.map((item) => {
-                return {
-                  ...item,
-                  contrasena: "•••••••••••••••••••",
-                };
-              })}
+          <UsuarioTable
+            page={page}
+            setPage={setPage}
+            usuariosList={usuariosList}
+            setUsuariosList={setUsuariosList}
+          />
+        );
+      case 1:
+        return (
+          <div className={style.container_form}>
+            <UsuarioCreate
+              newUsuario={newUsuario}
+              setNewUsuario={setNewUsuario}
             />
           </div>
         );
     }
   };
+
+  console.log(1);
+
   return (
     <div className={style.page}>
       <span className={style.title}>Usuario</span>

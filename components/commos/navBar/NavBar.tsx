@@ -14,10 +14,11 @@ import { BsFillMoonFill } from "react-icons/bs";
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import { AiOutlineDown } from "react-icons/ai";
 import { TbArrowsMoveVertical } from "react-icons/tb";
+import { RiLockPasswordLine } from "react-icons/ri"
 
 const NavBarOptions: INavOptions[] = sideBarOptions;
 
-export const NavBar = ({
+const NavBar = ({
   navBarExpanded,
   setNavBarExpanted,
 }: {
@@ -135,7 +136,15 @@ export const NavBar = ({
             className={`${subMenuExpanded == 100 && style.showuseroptions}`}
           >
             <span>
-              <TbDoorExit /> Cerrar Session
+              <TbDoorExit /> Cerrar session
+            </span>
+          </div>
+          <div
+            onClick={() => signOut()}
+            className={`${subMenuExpanded == 100 && style.showuseroptions}`}
+          >
+            <span>
+              <RiLockPasswordLine /> Cambiar contraseña
             </span>
           </div>
         </div>
@@ -161,3 +170,5 @@ export const NavBar = ({
     </div>
   );
 };
+
+export default NavBar
