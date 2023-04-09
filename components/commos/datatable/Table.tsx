@@ -84,15 +84,17 @@ const Table = ({
 
   return (
     <>
-      <table className={style.table}>
-        <thead>
-          <tr>
-            <th className={style.item}>ITEM</th>
-            {renderThead()}
-          </tr>
-        </thead>
-        <tbody>{renderTBody()}</tbody>
-      </table>
+      <div className={style.table_container}>
+        <table className={style.table}>
+          <thead>
+            <tr>
+              <th className={style.item}>ITEM</th>
+              {renderThead()}
+            </tr>
+          </thead>
+          <tbody>{renderTBody()}</tbody>
+        </table>
+      </div>
       <div className={style.pagination}>
         <div className={style.bi} onClick={() => setPage(0)}>
           <BiFirstPage />
@@ -137,4 +139,4 @@ const Table = ({
   );
 };
 
-export default Table
+export default Table;

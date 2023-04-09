@@ -1,5 +1,5 @@
 "use client";
-import style from "@/styles/format.module.scss";
+import style from "@/styles/header.module.scss";
 import { useState, useEffect } from "react";
 import {
   INewUsuario,
@@ -24,10 +24,13 @@ export default function Page() {
   });
   const [editableUsuario, setEditableUsuario] = useState();
 
+
   const [page, setPage] = useState<number>(0);
+  const [filtros, setFiltros] = useState({
+    nombre: ""
+  })
 
   const getUsuariosList = async () => {
-    console.log(4);
     if (session) {
       const response = await getUsersBySucursalService(
         session.user.sucursal,
@@ -77,7 +80,6 @@ export default function Page() {
   };
 
   const renderComponet = () => {
-    console.log(3);
     switch (render) {
       case 0:
         return (
@@ -85,7 +87,6 @@ export default function Page() {
             page={page}
             setPage={setPage}
             usuariosList={usuariosList}
-            setUsuariosList={setUsuariosList}
           />
         );
       case 1:
@@ -99,8 +100,6 @@ export default function Page() {
         );
     }
   };
-
-  console.log(1);
 
   return (
     <div className={style.page}>

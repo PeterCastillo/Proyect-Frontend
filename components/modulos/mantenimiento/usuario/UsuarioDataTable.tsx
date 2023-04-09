@@ -2,17 +2,16 @@ import Table from "@/components/commos/datatable/Table";
 import style from "@/app/mantenimiento/usuarios/page.module.scss";
 import { IUsuario } from "@/types/modulos/mantenimiento/usuarioInterfaces";
 import { FormEvent, useEffect, useState } from "react";
+import { AiOutlineSearch } from "react-icons/ai"
 
 const UsuarioTable = ({
   page,
   setPage,
   usuariosList,
-  setUsuariosList,
 }: {
   page: number;
   setPage: (page: number) => void;
   usuariosList: IUsuario[];
-  setUsuariosList: (usuariosList: IUsuario[]) => void;
 }) => {
   const [data, setData] = useState(usuariosList);
 
@@ -21,14 +20,14 @@ const UsuarioTable = ({
   }, [usuariosList]);
 
   const [filtros, setFiltros] = useState({
-    nombre: "",
+    search: "",
   });
   
   const handleFilter = (event: FormEvent<HTMLInputElement>) => {
     const { value } = event.currentTarget;
     setFiltros({
       ...filtros,
-      nombre: value,
+      search: value,
     });
     setData(
       usuariosList.filter((item) =>
@@ -42,9 +41,11 @@ const UsuarioTable = ({
         <input
           type="text"
           name="nombre"
-          value={filtros.nombre}
+          value={filtros.search}
           onChange={handleFilter}
+          autoComplete="off"
         />
+        <AiOutlineSearch/>
       </div>
       <Table
         page={page}
