@@ -23,7 +23,6 @@ const Table = ({
       </th>
     ));
   };
-
   const renderTBody = () => {
     const newListReformed = list;
     let emptyObject = {};

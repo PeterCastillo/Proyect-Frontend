@@ -29,7 +29,6 @@ export default function Page() {
   const [filtros, setFiltros] = useState({
     nombre: ""
   })
-
   const getUsuariosList = async () => {
     if (session) {
       const response = await getUsersBySucursalService(
@@ -50,7 +49,6 @@ export default function Page() {
   };
 
   useEffect(() => {
-    console.log(2);
     getUsuariosList();
   }, [status]);
 
