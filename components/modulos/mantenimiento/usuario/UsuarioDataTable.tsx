@@ -1,24 +1,29 @@
 import Table from "@/components/commos/datatable/Table";
 import style from "@/app/mantenimiento/usuarios/page.module.scss";
 import { IUsuario } from "@/types/modulos/mantenimiento/usuarioInterfaces";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { clsx } from "@/lib/clsx";
+import TableLoad from "@/components/commos/datatable/TableLoad";
 
 const UsuarioTable = ({
   page,
   setPage,
   usuariosList,
+  filtros,
+  setFiltros,
 }: {
   page: number;
   setPage: (page: number) => void;
   usuariosList: IUsuario[];
+  filtros: {
+    search: string;
+    propertie: keyof IUsuario;
+  };
+  setFiltros: (filtros: { search: string; propertie: keyof IUsuario }) => void;
 }) => {
-  const [data, setData] = useState(usuariosList);
-  const [filtros, setFiltros] = useState({
-    search: "pETE",
-    propertie: "nombre" as keyof IUsuario,
-  });
+  const [data, setData] = useState<IUsuario[]>([]);
+
   const [optionsFilterShow, setOptionsFilterShow] = useState(false);
 
   const handleFilters = () => {
@@ -42,8 +47,43 @@ const UsuarioTable = ({
     });
   };
 
+  const TableComponent = useMemo(() => {
+    if (usuariosList.length < 1 || data.length < 1) {
+      return (
+        <TableLoad
+          properties={[
+            { nombre: "Nombre", propertie: "nombre" },
+            { nombre: "Correo", propertie: "correo" },
+            { nombre: "Contraseña", propertie: "contrasena" },
+            { nombre: "accesos", propertie: "accesos" },
+          ]}
+        />
+      );
+    }
+    return (
+      <Table
+        page={page}
+        setPage={setPage}
+        properties={[
+          { nombre: "Nombre", propertie: "nombre" },
+          { nombre: "Correo", propertie: "correo" },
+          { nombre: "Contraseña", propertie: "contrasena" },
+          { nombre: "accesos", propertie: "accesos" },
+        ]}
+        list={data.map((item) => {
+          return {
+            ...item,
+            contrasena: "•••••••••••••••••••",
+          };
+        })}
+      />
+    );
+  }, [data, page]);
+
   useEffect(() => {
-    handleFilters();
+    if (usuariosList.length > 1) {
+      handleFilters();
+    }
   }, [usuariosList, filtros]);
 
   return (
@@ -55,9 +95,10 @@ const UsuarioTable = ({
           name="nombre"
           value={filtros.search}
           autoComplete="off"
-          onChange={(e) =>
-            setFiltros({ ...filtros, search: e.currentTarget.value })
-          }
+          onChange={(e) => {
+            setPage(0);
+            setFiltros({ ...filtros, search: e.currentTarget.value });
+          }}
         />
         <AiOutlineSearch />
         <input
@@ -85,22 +126,7 @@ const UsuarioTable = ({
           ))}
         </div>
       </div>
-      <Table
-        page={page}
-        setPage={setPage}
-        properties={[
-          { nombre: "Nombre", propertie: "nombre" },
-          { nombre: "Correo", propertie: "correo" },
-          { nombre: "Contraseña", propertie: "contrasena" },
-          { nombre: "accesos", propertie: "accesos" },
-        ]}
-        list={data.map((item) => {
-          return {
-            ...item,
-            contrasena: "•••••••••••••••••••",
-          };
-        })}
-      />
+      {TableComponent}
     </div>
   );
 };

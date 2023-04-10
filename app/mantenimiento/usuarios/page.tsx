@@ -27,8 +27,9 @@ export default function Page() {
 
   const [page, setPage] = useState<number>(0);
   const [filtros, setFiltros] = useState({
-    nombre: ""
-  })
+    search: "",
+    propertie: "nombre" as keyof IUsuario,
+  });
   const getUsuariosList = async () => {
     if (session) {
       const response = await getUsersBySucursalService(
@@ -85,6 +86,8 @@ export default function Page() {
             page={page}
             setPage={setPage}
             usuariosList={usuariosList}
+            filtros={filtros}
+            setFiltros={setFiltros}
           />
         );
       case 1:

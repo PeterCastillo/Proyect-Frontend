@@ -1,6 +1,7 @@
 import style from "./table.module.scss";
 import { BiFirstPage, BiLastPage } from "react-icons/bi";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import React from "react";
 
 const Table = ({
   properties,
@@ -24,7 +25,7 @@ const Table = ({
     ));
   };
   const renderTBody = () => {
-    const newListReformed = list;
+    const newListReformed = [...list];
     let emptyObject = {};
     for (let index = 0; index < properties.length; index++) {
       const element = properties[index];
@@ -80,7 +81,7 @@ const Table = ({
       })
       .slice(page * 10, page * 10 + 10);
   };
-
+  console.log("RENDER")
   return (
     <>
       <div className={style.table_container}>
@@ -137,5 +138,4 @@ const Table = ({
     </>
   );
 };
-
 export default Table;
