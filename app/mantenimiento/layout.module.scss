@@ -1,19 +1,15 @@
 .layout {
   display: flex;
   min-height: 100vh;
-  padding: 5px;
-  gap: 0.5rem;
   .content {
     flex-grow: 1;
     border-radius: 5px;
     overflow-y: auto;
-    margin-left: 70px;
-    overflow: hidden;
-    &.nav_expanded {
-      margin-left: 250px;
-      @media screen and (max-width: 600px) {
-        margin-left: 70px;
-      }
+    height: 100vh;
+    overflow-x: hidden;
+    padding: 10px 10px;
+    @media screen and (max-width: 800px) {
+      padding-left: calc(70px + 1rem);
     }
   }
 }

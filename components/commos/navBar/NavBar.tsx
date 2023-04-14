@@ -14,18 +14,13 @@ import { BsFillMoonFill } from "react-icons/bs";
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import { AiOutlineDown } from "react-icons/ai";
 import { TbArrowsMoveVertical } from "react-icons/tb";
-import { RiLockPasswordLine } from "react-icons/ri"
+import { RiLockPasswordLine } from "react-icons/ri";
 
 const NavBarOptions: INavOptions[] = sideBarOptions;
 
-const NavBar = ({
-  navBarExpanded,
-  setNavBarExpanted,
-}: {
-  navBarExpanded: boolean;
-  setNavBarExpanted: (state: boolean) => void;
-}) => {
+const NavBar = () => {
   const { data: session } = useSession();
+  const [navBarExpanded, setNavBarExpanted] = useState(false);
   const [subMenuExpanded, setSubMenuExpanded] = useState(0);
   const { theme, setTheme } = useTheme();
   const pathName = usePathname();
@@ -47,10 +42,10 @@ const NavBar = ({
   };
 
   return (
-    <div className={style.navbar}>
+    <div className={clsx(style.navbar, `${navBarExpanded && style.expanded}`)}>
       <div className={style.toggle}>
         <span onClick={() => setNavBarExpanted(!navBarExpanded)}>
-          {navBarExpanded ? <IoIosArrowBack /> : <IoIosArrowForward />}
+          <IoIosArrowForward />
         </span>
       </div>
       {NavBarOptions.map((item, index) => {
@@ -117,7 +112,6 @@ const NavBar = ({
             className={clsx(
               style.toogleoption,
               `${theme === "light" && style.optionactive}`
-              
             )}
           >
             <div>
@@ -171,4 +165,4 @@ const NavBar = ({
   );
 };
 
-export default NavBar
+export default NavBar;
