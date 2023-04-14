@@ -27,15 +27,6 @@
         transform: rotate(180deg);
       }
     }
-    .modulo  {
-      justify-content: flex-start;
-      span {
-        &:first-child {
-          transition: all 0.15s ease-in-out;
-          margin-right: 0.5rem;
-        }
-      }
-    }
   }
   .active {
     background-color: rgba(255, 255, 255, 0.2);
@@ -93,12 +84,13 @@
       flex-direction: column;
       width: 100%;
       border-radius: 5px 5px 0px 0px;
-      & div {
+      div {
         display: flex;
         align-items: center;
         height: 0rem;
         overflow: hidden;
         transition: all 0.15s ease-in-out;
+        white-space: nowrap;
       }
       .showuseroptions {
         height: 40px;
@@ -173,19 +165,17 @@
       white-space: nowrap;
       border-radius: 5px;
       display: flex;
+      align-items: center;
       flex-wrap: nowrap;
       height: 40px;
-      padding: 0px 10px;
-      align-items: center;
-      justify-content: center;
       .icon_modulo {
         height: 100%;
         display: flex;
+        flex-shrink: 0;
         justify-content: center;
         align-items: center;
         font-size: 1.2rem;
-        white-space: nowrap;
-        padding: calc(1.2rem - 30px);
+        width: 50px;
       }
       .icon_modulo_drop {
         height: 100%;
@@ -212,7 +202,7 @@
         overflow: hidden;
         list-style: none;
         cursor: pointer;
-        padding-left: 40px;
+        padding-left: 50px;
         transition: all 0.15s ease-in-out;
         &:hover {
           color: rgba(255, 255, 255, 0.5);
@@ -224,6 +214,7 @@
         align-items: center;
         transition: all 0.15s ease-in-out;
         border-radius: 5px;
+        
       }
     }
   }
