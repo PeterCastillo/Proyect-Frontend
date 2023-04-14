@@ -111,7 +111,8 @@ export default function Page() {
     for (let i = 0; i < renders.length; i++) {
       renders[i].style.height = `100%`;
       if (i != component) {
-        renders[i].style.height = `20rem`;
+        renders[i].style.height = `0rem`;
+        renders[i].style.transition = `50ms ease-out all`;
       }
     }
     const transformNumber = component * 100;
