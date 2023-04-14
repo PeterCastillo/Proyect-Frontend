@@ -104,7 +104,7 @@ const UsuarioTable = ({
         <input
           className={style.filter_current}
           type="text"
-          value={"P"}
+          value={filtros.propertie.split("")[0].toUpperCase()}
           readOnly
           onBlur={() => setOptionsFilterShow(false)}
           onFocus={() => setOptionsFilterShow(true)}
