@@ -1,6 +1,6 @@
 "use client";
 import style from "@/styles/header.module.scss";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   INewUsuario,
   IUsuario,
@@ -9,9 +9,11 @@ import { getUsersBySucursalService } from "@/services/modulos/mantenimiento/usua
 import { useSession } from "next-auth/react";
 import UsuarioTable from "@/components/modulos/mantenimiento/usuario/UsuarioDataTable";
 import UsuarioCreate from "@/components/modulos/mantenimiento/usuario/UsuarioCreateForm";
+import { Html } from "next/document";
 
 export default function Page() {
   const { data: session, status } = useSession();
+  const refTabContainer = useRef<any>(null);
   const [render, setRender] = useState(0);
 
   const [usuariosList, setUsuariosList] = useState<IUsuario[]>([]);
@@ -91,14 +93,32 @@ export default function Page() {
         );
       case 1:
         return (
-          <div className={style.container_form}>
-            <UsuarioCreate
-              newUsuario={newUsuario}
-              setNewUsuario={setNewUsuario}
-            />
-          </div>
+          <UsuarioCreate
+            newUsuario={newUsuario}
+            setNewUsuario={setNewUsuario}
+          />
         );
     }
+  };
+
+  const next = (component: number) => {
+    const renders = refTabContainer.current.children;
+    if(component == 1 || component == 2){
+      refTabContainer.current.style.height = `auto`
+    } else {
+      refTabContainer.current.style.height = `100%`
+    }
+    for (let i = 0; i < renders.length; i++) {
+      renders[i].style.height = `100%`;
+      if (i != component) {
+        renders[i].style.height = `10rem`;
+      }
+    }
+    const transformNumber = component * 100;
+    refTabContainer.current.style.transition = `150ms ease-out all`;
+    refTabContainer.current.style.transform = `translateX(calc(-${transformNumber}% - ${
+      component * 10
+    }px))`;
   };
 
   return (
@@ -108,25 +128,36 @@ export default function Page() {
         <div className={style.tab}>
           <span
             className={`${render == 0 && style.tabactive}`}
-            onClick={() => setRender(0)}
+            onClick={() => next(0)}
           >
             Lista
           </span>
           <span
             className={`${render == 1 && style.tabactive}`}
-            onClick={() => setRender(1)}
+            onClick={() => next(1)}
           >
             Crear
           </span>
           <span
             className={`${render == 2 ? style.tabactive : style.editdescative}`}
+            onClick={() => next(2)}
           >
             Editar
           </span>
         </div>
         <div className={style.btns}>{renderBtns()}</div>
       </div>
-      <div className={style.content}>{renderComponet()}</div>
+      <div className={style.content} ref={refTabContainer}>
+        <UsuarioTable
+          page={page}
+          setPage={setPage}
+          usuariosList={usuariosList}
+          filtros={filtros}
+          setFiltros={setFiltros}
+        />
+        <UsuarioCreate newUsuario={newUsuario} setNewUsuario={setNewUsuario} />
+        <UsuarioCreate newUsuario={newUsuario} setNewUsuario={setNewUsuario} />
+      </div>
     </div>
   );
 }

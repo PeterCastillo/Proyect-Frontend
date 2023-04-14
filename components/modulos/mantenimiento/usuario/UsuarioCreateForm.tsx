@@ -9,7 +9,6 @@ const UsuarioCreate = ({
   setNewUsuario: (newUsuario: INewUsuario) => void;
 }) => {
   return <div className={style.container_form}>
-    
   </div>;
 };
 
