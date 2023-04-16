@@ -9,7 +9,6 @@ import { getUsersBySucursalService } from "@/services/modulos/mantenimiento/usua
 import { useSession } from "next-auth/react";
 import UsuarioTable from "@/components/modulos/mantenimiento/usuario/UsuarioDataTable";
 import UsuarioCreate from "@/components/modulos/mantenimiento/usuario/UsuarioCreateForm";
-import { Html } from "next/document";
 
 export default function Page() {
   const { data: session, status } = useSession();
@@ -26,11 +25,6 @@ export default function Page() {
   });
   const [editableUsuario, setEditableUsuario] = useState();
 
-  const [page, setPage] = useState<number>(0);
-  const [filtros, setFiltros] = useState({
-    search: "",
-    propertie: "nombre" as keyof IUsuario,
-  });
   const getUsuariosList = async () => {
     if (session) {
       const response = await getUsersBySucursalService(
@@ -50,56 +44,35 @@ export default function Page() {
     }
   };
 
-  useEffect(() => {
-    getUsuariosList();
-  }, [status]);
+  // useEffect(() => {
+  //   getUsuariosList();
+  // }, [status]);
 
-  const renderBtns = () => {
-    switch (render) {
-      case 0:
-        return (
-          <>
-            <button className={style.editar}>EDITAR</button>
-          </>
-        );
-      case 1:
-        return (
-          <>
-            <button className={style.clean}>LIMPIAR</button>
-            <button className={style.done}>CREAR</button>
-          </>
-        );
-      case 2:
-        return (
-          <>
-            <button className={style.clean}>DESHACER</button>
-            <button className={style.done}>ACTUALIZAR</button>
-          </>
-        );
-    }
-  };
 
-  const renderComponet = () => {
-    switch (render) {
-      case 0:
-        return (
-          <UsuarioTable
-            page={page}
-            setPage={setPage}
-            usuariosList={usuariosList}
-            filtros={filtros}
-            setFiltros={setFiltros}
-          />
-        );
-      case 1:
-        return (
-          <UsuarioCreate
-            newUsuario={newUsuario}
-            setNewUsuario={setNewUsuario}
-          />
-        );
-    }
-  };
+  // const renderBtns = () => {
+  //   switch (render) {
+  //     case 0:
+  //       return (
+  //         <>
+  //           <button className={style.editar}>EDITAR</button>
+  //         </>
+  //       );
+  //     case 1:
+  //       return (
+  //         <>
+  //           <button className={style.clean}>LIMPIAR</button>
+  //           <button className={style.done}>CREAR</button>
+  //         </>
+  //       );
+  //     case 2:
+  //       return (
+  //         <>
+  //           <button className={style.clean}>DESHACER</button>
+  //           <button className={style.done}>ACTUALIZAR</button>
+  //         </>
+  //       );
+  //   }
+  // };
 
   const next = (component: number) => {
     const renders = refTabContainer.current.children;
@@ -146,18 +119,14 @@ export default function Page() {
             Editar
           </span>
         </div>
-        <div className={style.btns}>{renderBtns()}</div>
+        {/* <div className={style.btns}>{renderBtns()}</div> */}
       </div>
       <div className={style.content} ref={refTabContainer}>
-        <UsuarioTable
-          page={page}
-          setPage={setPage}
+        {/* <UsuarioTable
           usuariosList={usuariosList}
-          filtros={filtros}
-          setFiltros={setFiltros}
-        />
-        <UsuarioCreate newUsuario={newUsuario} setNewUsuario={setNewUsuario} />
-        <UsuarioCreate newUsuario={newUsuario} setNewUsuario={setNewUsuario} />
+        /> */}
+        {/* <UsuarioCreate newUsuario={newUsuario} setNewUsuario={setNewUsuario} />
+        <UsuarioCreate newUsuario={newUsuario} setNewUsuario={setNewUsuario} /> */}
       </div>
     </div>
   );
