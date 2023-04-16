@@ -8,6 +8,7 @@ import {
 import { Usuario } from "../../../../types/auth/next-auth";
 import UsuarioTable from "@/components/modulos/mantenimiento/usuario/UsuarioDataTable";
 import UsuarioCreate from "@/components/modulos/mantenimiento/usuario/UsuarioCreateForm";
+import { next } from "@/utils/nextPage";
 
 interface ITabUsuario {
   usuario: Usuario;
@@ -28,27 +29,13 @@ const TabUsuario: FC<ITabUsuario> = ({ usuario, usuariosList }) => {
   });
   const [editableUsuario, setEditableUsuario] = useState();
 
-  const next = (component: number) => {
-    setRender(component);
-    const renders = refTabContainer.current.children;
-    if (component == 1 || component == 2) {
-      refTabContainer.current.style.height = `max-content`;
-    } else {
-      refTabContainer.current.style.height = `100%`;
-    }
-    for (let i = 0; i < renders.length; i++) {
-      renders[i].style.height = `100%`;
-      if (i != component) {
-        renders[i].style.height = `0rem`;
-        renders[i].style.transition = `50ms ease-out all`;
-      }
-    }
-    const transformNumber = component * 100;
-    refTabContainer.current.style.transition = `150ms ease-out all`;
-    refTabContainer.current.style.transform = `translateX(calc(-${transformNumber}% - ${
-      component * 10
-    }px))`;
-  };
+  const handleCreateUsuario = () => {
+
+  }
+
+  const handleEditUsuario = () => {
+
+  }
 
   return (
     <div className={style.page}>
@@ -57,19 +44,19 @@ const TabUsuario: FC<ITabUsuario> = ({ usuario, usuariosList }) => {
         <div className={style.tab}>
           <span
             className={`${render == 0 && style.tabactive}`}
-            onClick={() => next(0)}
+            onClick={() => next(0,setRender,refTabContainer)}
           >
             Lista
           </span>
           <span
             className={`${render == 1 && style.tabactive}`}
-            onClick={() => next(1)}
+            onClick={() => next(1,setRender,refTabContainer)}
           >
             Crear
           </span>
           <span
             className={`${render == 2 ? style.tabactive : style.editdescative}`}
-            onClick={() => next(2)}
+            onClick={() => next(2,setRender,refTabContainer)}
           >
             Editar
           </span>
