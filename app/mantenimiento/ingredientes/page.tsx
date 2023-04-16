@@ -1,6 +1,5 @@
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { getServerSession } from "next-auth/next";
-import { Parent } from "./Child";
 
 
 export default async function Page() {
@@ -9,7 +8,6 @@ export default async function Page() {
   //   console.log(session);
   return (
     <div>
-      hola <Parent />
     </div>
   );
 }

@@ -81,7 +81,6 @@ const Table = ({
       })
       .slice(page * 10, page * 10 + 10);
   };
-  console.log("RENDER")
   return (
     <>
       <div className={style.table_container}>

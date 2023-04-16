@@ -79,7 +79,7 @@ const UsuarioTable = React.memo(
         handleFilters();
       }
     }, [usuariosList, filtros]);
-
+    
     return (
       <div className={style.container_table}>
         <div className={style.filter}>
