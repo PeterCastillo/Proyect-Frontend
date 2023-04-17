@@ -11,7 +11,7 @@ import { signOut } from "next-auth/react";
 import { useTheme } from "next-themes";
 import { BiSun } from "react-icons/bi";
 import { BsFillMoonFill } from "react-icons/bs";
-import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
+import { IoIosArrowForward } from "react-icons/io";
 import { AiOutlineDown } from "react-icons/ai";
 import { TbArrowsMoveVertical } from "react-icons/tb";
 import { RiLockPasswordLine } from "react-icons/ri";
