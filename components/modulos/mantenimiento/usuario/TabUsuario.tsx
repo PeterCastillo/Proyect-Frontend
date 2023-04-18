@@ -25,7 +25,7 @@ const TabUsuario: FC<ITabUsuario> = ({ usuario, usuariosList }) => {
     correo: "",
     contrasena: "",
     accesos: [],
-    sucursal: "",
+    sucursal_id: "",
   });
   const [editableUsuario, setEditableUsuario] = useState();
 

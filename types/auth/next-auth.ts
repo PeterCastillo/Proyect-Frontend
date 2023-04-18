@@ -8,7 +8,7 @@ export interface Usuario {
   correo: string,
   contrasena: string
   accesos: [],
-  sucursal: string
+  sucursal_id: string
   token: string,
   accessTokenExpires: number,
   iat: number,
@@ -35,7 +35,7 @@ declare module "next-auth/jwt" {
     correo: string;
     contrasena: string
     accesos: [];
-    sucursal: string
+    sucursal_id: string
     token: string;
     accessTokenExpires: number;
     iat: number;

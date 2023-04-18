@@ -1,29 +1,102 @@
 import { FormEvent } from "react";
+import style from "./Form.module.scss";
+
+interface Select {
+  type: "SELECT";
+  label: string;
+  name: string;
+  value: string;
+  disabled: boolean;
+  required: boolean;
+  list: {
+    name: string;
+    value: string;
+  }[];
+}
+interface Input {
+  type: "INPUT" | "DATE";
+  label: string;
+  name: string;
+  value: string;
+  disabled: boolean;
+  required: boolean;
+}
 
 interface IForm {
   handleOnFieldChange: (
     e: FormEvent<HTMLInputElement | HTMLSelectElement>
   ) => void;
-  fields: Array<{
-    name: string;
-    value: string;
-    disabled: boolean;
-    required: boolean;
-    type: "INPUT" | "SELECT" | "DATE";
-  }>[];
+  fields: Array<Array<Input | Select>>;
 }
 const Form = ({ handleOnFieldChange, fields }: IForm) => {
-  return fields.map((item, index) => (
-    <div key={index}>
-      {item.map((item, index) => {
-        return {
-          INPUT: <input type="text" key={index} />,
-          SELECT: <select name="" id="" key={index}></select>,
-          DATE: <input type="date" key={index} />,
-        }[item.type];
-      })}
-    </div>
-  ));
+  return (
+    <>
+      {fields.map((item, index) => (
+        <div key={index} className={style.input_group}>
+          {item.map((item, index) => {
+            return (
+              <div key={index}>
+                <label htmlFor={item.name}>{item.label}</label>
+                {
+                  {
+                    INPUT: (
+                      <input
+                        id={item.name}
+                        type="text"
+                        value={item.value}
+                        onChange={(e) =>
+                          handleOnFieldChange({
+                            ...e,
+                            currentTarget: {
+                              ...e.currentTarget,
+                              value: e.currentTarget.value.toUpperCase(),
+                              name: item.name,
+                            },
+                          })
+                        }
+                        disabled={item.disabled}
+                        required={item.required}
+                  
+                      />
+                    ),
+                    SELECT: (
+                      <select
+                        id=""
+                        name={item.name}
+                        value={item.value}
+                        onChange={handleOnFieldChange}
+                        disabled={item.disabled}
+                        required={item.required}
+                      >
+                        <option hidden></option>
+                        {item.type == "SELECT" &&
+                          item.list.map((item, index) => (
+                            <option value={item.name} key={index}>
+                              {item.name}
+                            </option>
+                          ))}
+                      </select>
+                    ),
+                    DATE: (
+                      <input
+                        id={item.name}
+                        type="date"
+                        name={item.name}
+                        value={item.value}
+                        onChange={handleOnFieldChange}
+                        disabled={item.disabled}
+                        required={item.required}
+                      />
+                    ),
+                  }[item.type]
+                }
+              </div>
+            );
+          })}
+        </div>
+      ))}
+    </>
+  );
 };
 
 export default Form;

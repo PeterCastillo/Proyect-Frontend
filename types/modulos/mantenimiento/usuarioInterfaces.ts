@@ -4,7 +4,7 @@ export interface IUsuario {
   correo: string;
   contrasena: string;
   accesos: string[];
-  sucursal: string;
+  sucursal_id: string;
 }
 
 export interface INewUsuario {
@@ -12,5 +12,5 @@ export interface INewUsuario {
   correo: string;
   contrasena: string;
   accesos: string[];
-  sucursal: string;
+  sucursal_id: string;
 }
