@@ -8,6 +8,7 @@ import UsuarioCreate from "@/components/modulos/mantenimiento/usuario/UsuarioCre
 import { next } from "@/utils/nextPage";
 import Tab from "../../../../components/commos/tab/Tab";
 import UsuarioEdit from "./UsuarioEditableForm";
+import { clsx } from "@/lib/clsx";
 
 interface ITabUsuario {
   usuario: Usuario;
@@ -46,17 +47,26 @@ const TabUsuario: FC<ITabUsuario> = ({ usuario, usuariosList }) => {
       next(2, refTabContainer);
     }
   };
-  
+
   return (
     <div className={style.page}>
       <span className={style.title}>Usuario</span>
       <div className={style.options}>
-        <Tab
-          handleNextComponent={(componentIndex: number) =>
-            next(componentIndex, refTabContainer)
-          }
-          editableValidator={editableUsuario._id}
-        />
+        <div className={style.tab}>
+          <span
+            className={clsx(style.normal , style.tabactive)}
+            onClick={() => next(0, refTabContainer)}
+          >
+            Lista
+          </span>
+          <span
+            className={style.normal}
+            onClick={() => next(1, refTabContainer)}
+          >
+            Crear
+          </span>
+          <span className={style.editdescative}>Editar</span>
+        </div>
       </div>
       <div className={style.content} ref={refTabContainer}>
         <UsuarioTable

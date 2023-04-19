@@ -7,6 +7,7 @@
   flex-direction: column;
   overflow: hidden;
   min-width: 100%;
+  transition: 200ms ease-out all;
   .filter {
     width: auto;
     margin-bottom: 0.5rem;
@@ -113,6 +114,7 @@
   width: 100%;
   overflow: hidden;
   min-width: 100%;
+  transition: 200ms ease-out all;
   .form {
     max-width: 40rem;
     margin: auto;

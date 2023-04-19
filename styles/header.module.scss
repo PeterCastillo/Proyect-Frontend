@@ -21,6 +21,47 @@
   }
   .options {
     display: flex;
+    .tab {
+      display: flex;
+      @include theme() {
+        background-color: theme-get("bg-color-tb");
+        // border: solid 0.5px theme-get("bg-color-boder-tb");
+        border: solid 0.5px rgba(226, 226, 226, 0.5);
+      }
+      gap: 3px;
+      height: 40px;
+      align-items: center;
+      border-radius: 5px;
+      padding: 2px 2px;
+      margin-right: auto;
+      span {
+        box-sizing: border-box;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        border-radius: 5px;
+        padding: 3.5px 15px;
+        font-weight: 400;
+        font-size: 0.9rem;
+        cursor: pointer;
+        border: solid 0.5px transparent;
+        &.normal {
+          background-color: transparent;
+        }
+        &.editdescative {
+          color: rgba(165, 165, 165, 0.5);
+          cursor: default;
+        }
+        &.tabactive {
+          @include theme() {
+            background-color: theme-get("bg-color-select-tb");
+            // border: solid 0.5px theme-get("bg-color-boder-tb");
+            border: solid 0.5px rgba(226, 226, 226, 0.5);
+            color: unset;
+          }
+        }
+      }
+    }
     .btns {
       display: flex;
       gap: 0.5rem;
@@ -48,7 +89,6 @@
         }
       }
     }
-    
   }
   .content {
     width: 100%;
@@ -56,6 +96,6 @@
     display: flex;
     flex-wrap: nowrap;
     gap: 10px;
-    transition: 150ms ease-out all;
+    transition: 200ms ease-out all;
   }
 }
