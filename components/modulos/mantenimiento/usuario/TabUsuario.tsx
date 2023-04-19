@@ -6,7 +6,6 @@ import { Usuario } from "../../../../types/auth/next-auth";
 import UsuarioTable from "@/components/modulos/mantenimiento/usuario/UsuarioDataTable";
 import UsuarioCreate from "@/components/modulos/mantenimiento/usuario/UsuarioCreateForm";
 import { next } from "@/utils/nextPage";
-import Tab from "../../../../components/commos/tab/Tab";
 import UsuarioEdit from "./UsuarioEditableForm";
 import { clsx } from "@/lib/clsx";
 
