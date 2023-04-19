@@ -1,4 +1,4 @@
-import style from "./table.module.scss";
+import style from "./Table.module.scss";
 import { BiFirstPage, BiLastPage } from "react-icons/bi";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import React from "react";

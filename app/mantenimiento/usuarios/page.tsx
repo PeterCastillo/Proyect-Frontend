@@ -7,7 +7,7 @@ export default async function Page() {
   const session = await getServerSession(authOptions);
   if (session) {
     const usuariosList = await getUsersBySucursalService(
-      session.user.sucursal,
+      session.user.sucursal_id,
       session.user.token
     );
     return (

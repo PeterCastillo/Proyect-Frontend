@@ -1,4 +1,4 @@
-import style from "./table.module.scss";
+import style from "./Table.module.scss";
 import { BiFirstPage, BiLastPage } from "react-icons/bi";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import React from "react";
@@ -8,6 +8,7 @@ const Table = ({
   list,
   page,
   setPage,
+  handleEdit,
 }: {
   properties: {
     nombre: string;
@@ -16,6 +17,7 @@ const Table = ({
   list: any[];
   page: number;
   setPage: (page: number) => void;
+  handleEdit: (id: string) => void;
 }) => {
   const renderThead = () => {
     return properties.map((item) => (
@@ -49,15 +51,10 @@ const Table = ({
         return (
           <tr
             key={index}
-            className={`${
-              values.filter((item) => item === "").length == values.length &&
-              style.empty
-            }`}
+            className={`${values.every(item => item === "") && style.empty}`}
           >
             <td className={style.item}>
-              {values.filter((item) => item === "").length == values.length
-                ? "ㅤ"
-                : index + 1}
+              {values.every(item => item === "") ? "ㅤ" : index + 1}
             </td>
             {values.map((value, index) => {
               if (typeof value === "boolean") {
@@ -76,6 +73,7 @@ const Table = ({
               }
               return <td key={index}>{value}</td>;
             })}
+            <td><button onClick={()=> handleEdit(item._id)}>Editar</button></td>
           </tr>
         );
       })
@@ -89,6 +87,7 @@ const Table = ({
             <tr>
               <th className={style.item}>ITEM</th>
               {renderThead()}
+              <th>EDITAR</th>
             </tr>
           </thead>
           <tbody>{renderTBody()}</tbody>

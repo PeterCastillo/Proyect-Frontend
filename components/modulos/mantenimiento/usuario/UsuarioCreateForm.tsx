@@ -1,15 +1,24 @@
-import { INewUsuario } from "@/types/modulos/mantenimiento/usuarioInterfaces";
+import {
+  INewUsuario,
+  IUsuario,
+} from "@/types/modulos/mantenimiento/usuarioInterfaces";
 import style from "../../../../app/mantenimiento/usuarios/page.module.scss";
 import Form from "@/components/commos/form/Form";
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
 
 const UsuarioCreate = ({
-  newUsuario,
-  setNewUsuario,
+  handleAddUsuario,
 }: {
-  newUsuario: INewUsuario;
-  setNewUsuario: (newUsuario: INewUsuario) => void;
+  handleAddUsuario: (newUsuario: IUsuario) => void;
 }) => {
+  const [newUsuario, setNewUsuario] = useState<INewUsuario>({
+    nombre: "",
+    correo: "",
+    contrasena: "",
+    accesos: [],
+    sucursal_id: "",
+  });
+
   const handleInputChange = (
     e: FormEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -19,6 +28,16 @@ const UsuarioCreate = ({
       [name]: value,
     });
   };
+
+  const handleReset = () => {
+    setNewUsuario({
+      ...newUsuario,
+      nombre: "",
+      correo: "",
+      contrasena: "",
+      accesos: []
+    })
+  }
 
   return (
     <div className={style.container_form}>
@@ -70,6 +89,7 @@ const UsuarioCreate = ({
           ]}
         />
       </form>
+      <button onClick={()=>handleAddUsuario({...newUsuario, _id: "1111"})}>HOLA</button>
     </div>
   );
 };

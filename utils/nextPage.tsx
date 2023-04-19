@@ -1,10 +1,8 @@
 export const next = (
   component: number,
-  setRender: (state: number) => void,
   refTabContainer: any
 ) => {
   if (refTabContainer) {
-    setRender(component);
     const renders = refTabContainer.current.children;
     if (component == 1 || component == 2) {
       refTabContainer.current.style.height = `max-content`;

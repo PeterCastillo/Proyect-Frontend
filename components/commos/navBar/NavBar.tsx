@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import style from "./navbar.module.scss";
+import style from "./Navbar.module.scss";
 import { TbDoorExit } from "react-icons/tb";
 import { signOut } from "next-auth/react";
 import { useTheme } from "next-themes";
