@@ -1,10 +1,12 @@
 import Table from "@/components/commos/datatable/Table";
 import style from "@/app/mantenimiento/usuarios/page.module.scss";
-import { IUsuario } from "@/types/modulos/mantenimiento/usuarioInterfaces";
-import React, { useEffect, useState, useMemo } from "react";
+import {
+  IUsuario,
+  UsuarioPropertiFilter,
+} from "@/types/modulos/mantenimiento/usuarioInterfaces";
+import React, { useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { clsx } from "@/lib/clsx";
-import TableLoad from "@/components/commos/datatable/TableLoad";
 
 const UsuarioTable = ({
   usuariosList,
@@ -13,74 +15,12 @@ const UsuarioTable = ({
   usuariosList: IUsuario[];
   handleEditUsuario: (usuario_id: string) => void;
 }) => {
-  const [data, setData] = useState<IUsuario[]>([]);
   const [page, setPage] = useState<number>(0);
   const [filtros, setFiltros] = useState({
     search: "",
-    propertie: "nombre" as keyof IUsuario,
+    propertie: "nombre" as UsuarioPropertiFilter,
   });
   const [optionsFilterShow, setOptionsFilterShow] = useState(false);
-
-  const handleFilters = () => {
-    if (!filtros.search) {
-      return setData(usuariosList);
-    }
-    setData(
-      usuariosList.filter((item) =>
-        item[filtros.propertie]
-          .toString()
-          .toUpperCase()
-          .startsWith(filtros.search.toUpperCase())
-      )
-    );
-  };
-
-  const handleSelectFilterType = <P extends keyof IUsuario>(type: P) => {
-    setFiltros({
-      ...filtros,
-      propertie: type,
-    });
-  };
-
-  const TableComponent = useMemo(() => {
-    if (usuariosList.length < 1 || data.length < 1) {
-      return (
-        <TableLoad
-          properties={[
-            { nombre: "Nombre", propertie: "nombre" },
-            { nombre: "Correo", propertie: "correo" },
-            { nombre: "Contraseña", propertie: "contrasena" },
-            { nombre: "accesos", propertie: "accesos" },
-          ]}
-        />
-      );
-    }
-    return (
-      <Table
-        page={page}
-        setPage={setPage}
-        properties={[
-          { nombre: "Nombre", propertie: "nombre" },
-          { nombre: "Correo", propertie: "correo" },
-          { nombre: "Contraseña", propertie: "contrasena" },
-          { nombre: "accesos", propertie: "accesos" },
-        ]}
-        list={data.map((item) => {
-          return {
-            ...item,
-            contrasena: "•••••••••••••••••••",
-          };
-        })}
-        handleEdit={handleEditUsuario}
-      />
-    );
-  }, [data, page]);
-
-  useEffect(() => {
-    if (usuariosList.length > 0) {
-      handleFilters();
-    }
-  }, [usuariosList, filtros]);
 
   return (
     <div className={style.container_table}>
@@ -110,11 +50,19 @@ const UsuarioTable = ({
         >
           <div onClick={() => setOptionsFilterShow(false)}>x</div>
           {[
-            { name: "nombre", propertie: "nombre" as keyof IUsuario },
-            { name: "correo", propertie: "correo" as keyof IUsuario },
+            {
+              name: "nombre",
+              propertie: "nombre" as UsuarioPropertiFilter,
+            },
+            {
+              name: "correo",
+              propertie: "correo" as UsuarioPropertiFilter,
+            },
           ].map((item, index) => (
             <span
-              onClick={() => handleSelectFilterType(item.propertie)}
+              onClick={() =>
+                setFiltros({ ...filtros, propertie: item.propertie })
+              }
               key={index}
             >
               {item.name.toUpperCase()}
@@ -122,7 +70,32 @@ const UsuarioTable = ({
           ))}
         </div>
       </div>
-      {TableComponent}
+      <Table
+        page={page}
+        setPage={setPage}
+        properties={[
+          { nombre: "Nombre", propertie: "nombre" },
+          { nombre: "Correo", propertie: "correo" },
+          { nombre: "Contraseña", propertie: "contrasena" },
+          { nombre: "accesos", propertie: "accesos" },
+        ]}
+        list={usuariosList
+          .filter((item) => {
+            if (filtros.search) {
+              return item[filtros.propertie]
+                .toUpperCase()
+                .startsWith(filtros.search.toUpperCase());
+            }
+            return item;
+          })
+          .map((item) => {
+            return {
+              ...item,
+              contrasena: "•••••••••••••••••••",
+            };
+          })}
+        handleEdit={handleEditUsuario}
+      />
     </div>
   );
 };
