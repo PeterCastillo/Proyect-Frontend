@@ -21,81 +21,36 @@ const UsuarioTable = ({
     search: "",
     propertie: "nombre" as UsuarioPropertiFilter,
   });
-  const [optionsFilterShow, setOptionsFilterShow] = useState(false);
 
+  console.log(1);
   return (
     <div className={style.container_table}>
-      <div className={style.filter}>
-        <input
-          className={style.search}
-          type="text"
-          name="nombre"
-          value={filtros.search}
-          autoComplete="off"
-          onChange={(e) => {
-            setPage(0);
-            setFiltros({ ...filtros, search: e.currentTarget.value });
-          }}
-        />
-        <AiOutlineSearch />
-        <input
-          className={style.filter_current}
-          type="text"
-          value={filtros.propertie.split("")[0].toUpperCase()}
-          readOnly
-          onBlur={() => setOptionsFilterShow(false)}
-          onFocus={() => setOptionsFilterShow(true)}
-        />
-        <div
-          className={clsx(style.options, `${optionsFilterShow && style.show}`)}
-        >
-          {/* <div >x</div> */}
-          <span>
-            FILTRAR POR:{" "}
-            <div onClick={() => setOptionsFilterShow(false)}>x</div>
-          </span>
-          {[
-            {
-              name: "nombre",
-              propertie: "nombre" as UsuarioPropertiFilter,
-            },
-            {
-              name: "correo",
-              propertie: "correo" as UsuarioPropertiFilter,
-            },
-          ].map((item, index) => (
-            <span
-              onClick={() =>
-                setFiltros({ ...filtros, propertie: item.propertie })
-              }
-              key={index}
-            >
-              {item.name.toUpperCase()}
-            </span>
-          ))}
+      <div className={style.table_header}>
+        <div className={style.filters}>
+          <MultipleFilter
+            changeInputFilter={(e) => {
+              setPage(0);
+              setFiltros({ ...filtros, search: e.currentTarget.value });
+            }}
+            filtros={filtros}
+            properties={[
+              {
+                name: "nombre",
+                propertie: "nombre",
+              },
+              {
+                name: "correo",
+                propertie: "correo",
+              },
+            ]}
+            changeTypeFilter={(propertie: UsuarioPropertiFilter) => {
+              setPage(0);
+              setFiltros({ ...filtros, propertie: propertie });
+            }}
+          />
         </div>
+        <div ><select name="" id=""></select></div>
       </div>
-      <MultipleFilter
-        changeInputFilter={(e) => {
-          setPage(0);
-          setFiltros({ ...filtros, search: e.currentTarget.value });
-        }}
-        filtros={filtros}
-        properties={[
-          {
-            name: "nombre",
-            propertie: "nombre",
-          },
-          {
-            name: "correo",
-            propertie: "correo",
-          },
-        ]}
-        changeTypeFilter={(propertie: UsuarioPropertiFilter) => {
-          setPage(0);
-          setFiltros({ ...filtros, propertie: propertie });
-        }}
-      />
       <Table
         page={page}
         setPage={setPage}

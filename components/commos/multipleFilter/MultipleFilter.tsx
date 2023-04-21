@@ -20,12 +20,11 @@ const MultipleFilter = ({
     propertie: string;
   }[];
 }) => {
+  const [optionsFilterShow, setOptionsFilterShow] = useState(false);
   const handleSelectPropertie = (propertie: string) => {
     setOptionsFilterShow(false)
     changeTypeFilter(propertie)
   }
-
-  const [optionsFilterShow, setOptionsFilterShow] = useState(false);
   return (
     <div className={style.filter}>
       <input
