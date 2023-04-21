@@ -7,6 +7,7 @@ import {
 import React, { useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { clsx } from "@/lib/clsx";
+import MultipleFilter from "@/components/commos/multipleFilter/MultipleFilter";
 
 const UsuarioTable = ({
   usuariosList,
@@ -48,7 +49,11 @@ const UsuarioTable = ({
         <div
           className={clsx(style.options, `${optionsFilterShow && style.show}`)}
         >
-          <div onClick={() => setOptionsFilterShow(false)}>x</div>
+          {/* <div >x</div> */}
+          <span>
+            FILTRAR POR:{" "}
+            <div onClick={() => setOptionsFilterShow(false)}>x</div>
+          </span>
           {[
             {
               name: "nombre",
@@ -70,6 +75,27 @@ const UsuarioTable = ({
           ))}
         </div>
       </div>
+      <MultipleFilter
+        changeInputFilter={(e) => {
+          setPage(0);
+          setFiltros({ ...filtros, search: e.currentTarget.value });
+        }}
+        filtros={filtros}
+        properties={[
+          {
+            name: "nombre",
+            propertie: "nombre",
+          },
+          {
+            name: "correo",
+            propertie: "correo",
+          },
+        ]}
+        changeTypeFilter={(propertie: UsuarioPropertiFilter) => {
+          setPage(0);
+          setFiltros({ ...filtros, propertie: propertie });
+        }}
+      />
       <Table
         page={page}
         setPage={setPage}
@@ -81,7 +107,7 @@ const UsuarioTable = ({
         ]}
         list={usuariosList
           .filter((item) => {
-            if (filtros.search) {
+            if (filtros.search && filtros.propertie) {
               return item[filtros.propertie]
                 .toUpperCase()
                 .startsWith(filtros.search.toUpperCase());

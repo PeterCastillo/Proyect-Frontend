@@ -22,13 +22,15 @@ interface Input {
   required: boolean;
 }
 
-interface IForm {
+const Form = ({
+  handleOnFieldChange,
+  fields,
+}: {
   handleOnFieldChange: (
     e: FormEvent<HTMLInputElement | HTMLSelectElement>
   ) => void;
   fields: Array<Array<Input | Select>>;
-}
-const Form = ({ handleOnFieldChange, fields }: IForm) => {
+}) => {
   return (
     <>
       {fields.map((item, index) => (
@@ -56,7 +58,6 @@ const Form = ({ handleOnFieldChange, fields }: IForm) => {
                         }
                         disabled={item.disabled}
                         required={item.required}
-                  
                       />
                     ),
                     SELECT: (
