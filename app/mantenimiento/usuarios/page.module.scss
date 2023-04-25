@@ -17,6 +17,16 @@
       flex-wrap: wrap;
       gap: 0.5rem;
     }
+    .sucursales {
+      margin-bottom: 10px;
+      select {
+        outline: none;
+        height: 40px;
+        padding: 0px 15px;
+        border-radius: 5px;
+        border: solid 1px rgba(226, 226, 226, 0.5);
+      }
+    }
   }
 }
 

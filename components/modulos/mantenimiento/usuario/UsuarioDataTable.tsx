@@ -22,7 +22,6 @@ const UsuarioTable = ({
     propertie: "nombre" as UsuarioPropertiFilter,
   });
 
-  console.log(1);
   return (
     <div className={style.container_table}>
       <div className={style.table_header}>
@@ -49,7 +48,11 @@ const UsuarioTable = ({
             }}
           />
         </div>
-        <div ><select name="" id=""></select></div>
+        <div className={style.sucursales}>
+          <select name="" id="">
+            <option value="">SUCURSAL : FABELA</option>
+          </select>
+        </div>
       </div>
       <Table
         page={page}
