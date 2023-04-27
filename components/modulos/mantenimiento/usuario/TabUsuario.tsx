@@ -1,6 +1,6 @@
 "use client";
 import style from "@/styles/header.module.scss";
-import { FC, useState, useRef } from "react";
+import { FC, useState, useRef, FormEvent } from "react";
 import { IUsuario } from "@/types/modulos/mantenimiento/usuarioInterfaces";
 import { Usuario } from "../../../../types/auth/next-auth";
 import UsuarioTable from "@/components/modulos/mantenimiento/usuario/UsuarioDataTable";
@@ -8,13 +8,19 @@ import UsuarioCreate from "@/components/modulos/mantenimiento/usuario/UsuarioCre
 import { next } from "@/utils/nextPage";
 import UsuarioEdit from "./UsuarioEditableForm";
 import { clsx } from "@/lib/clsx";
+import { ISucusal } from "@/types/modulos/mantenimiento/sucursalInterfaces";
 
 interface ITabUsuario {
   usuario: Usuario;
   usuariosList: IUsuario[];
+  sucursalesList: ISucusal[];
 }
 
-const TabUsuario: FC<ITabUsuario> = ({ usuario, usuariosList }) => {
+const TabUsuario: FC<ITabUsuario> = ({
+  usuario,
+  usuariosList,
+  sucursalesList,
+}) => {
   const refTabContainer = useRef<any>(null);
 
   const [usuarios, setUsuariosList] = useState<IUsuario[]>(usuariosList);
@@ -47,13 +53,18 @@ const TabUsuario: FC<ITabUsuario> = ({ usuario, usuariosList }) => {
     }
   };
 
+  const handleChangeSucursal = (e: FormEvent<HTMLSelectElement>) => {
+    const { value: sucrusal_id } = e.currentTarget;
+    console.log(sucrusal_id);
+  };
+
   return (
     <div className={style.page}>
       <span className={style.title}>Usuario</span>
       <div className={style.options}>
         <div className={style.tab}>
           <span
-            className={clsx(style.normal , style.tabactive)}
+            className={clsx(style.normal, style.tabactive)}
             onClick={() => next(0, refTabContainer)}
           >
             Lista
@@ -71,7 +82,22 @@ const TabUsuario: FC<ITabUsuario> = ({ usuario, usuariosList }) => {
         <UsuarioTable
           usuariosList={usuarios}
           handleEditUsuario={handleEditUsuario}
-        />
+        >
+          <>
+            {usuario.accesos.find((item) => item == "ADMIN") && (
+              <>
+                <span>SUCURSAL</span>
+                <select name="" id="" onChange={handleChangeSucursal}>
+                  {sucursalesList.map((item) => (
+                    <option key={item._id} value={item._id}>
+                      {item.sucursal.toUpperCase()}
+                    </option>
+                  ))}
+                </select>
+              </>
+            )}
+          </>
+        </UsuarioTable>
         <UsuarioCreate handleAddUsuario={handleAddUsuario} />
         <UsuarioEdit usuario={editableUsuario} />
       </div>

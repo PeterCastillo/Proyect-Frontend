@@ -5,16 +5,16 @@ import {
   UsuarioPropertiFilter,
 } from "@/types/modulos/mantenimiento/usuarioInterfaces";
 import React, { useState } from "react";
-import { AiOutlineSearch } from "react-icons/ai";
-import { clsx } from "@/lib/clsx";
 import MultipleFilter from "@/components/commos/multipleFilter/MultipleFilter";
 
 const UsuarioTable = ({
   usuariosList,
   handleEditUsuario,
+  children,
 }: {
   usuariosList: IUsuario[];
   handleEditUsuario: (usuario_id: string) => void;
+  children: JSX.Element;
 }) => {
   const [page, setPage] = useState<number>(0);
   const [filtros, setFiltros] = useState({
@@ -48,11 +48,7 @@ const UsuarioTable = ({
             }}
           />
         </div>
-        <div className={style.sucursales}>
-          <select name="" id="">
-            <option value="">SUCURSAL : FABELA</option>
-          </select>
-        </div>
+        <div className={style.sucursales}>{children}</div>
       </div>
       <Table
         page={page}

@@ -12,19 +12,37 @@
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
+    width: 100%;
     .filters {
       display: flex;
       flex-wrap: wrap;
       gap: 0.5rem;
+      // width: 100%;
     }
     .sucursales {
+      display: flex;
+      align-items: center;
       margin-bottom: 10px;
+      border: solid 1px rgba(226, 226, 226, 0.5);
+      border-radius: 5px;
+      span {
+        display: flex;
+        height: 100%;
+        align-items: center;
+        padding: 5px;
+        border-right: solid 1px rgba(226, 226, 226, 0.5);
+        font-size: 0.9rem;
+        font-weight: 600;
+      }
       select {
         outline: none;
         height: 40px;
-        padding: 0px 15px;
-        border-radius: 5px;
-        border: solid 1px rgba(226, 226, 226, 0.5);
+        border: none;
+        max-width: 10rem;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        padding-left: 5px;
       }
     }
   }
