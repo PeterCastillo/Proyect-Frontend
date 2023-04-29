@@ -2,9 +2,13 @@ const apiUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export const getUsersBySucursalService = async (
   sucursal_id: string,
-  token: string
+  token: string,
+  all: boolean = false 
 ) => {
-  const response = await fetch(`${apiUrl}/usuarios/${sucursal_id}`, {
+  const query_params = new URLSearchParams({
+    all: all.toString(),
+  });
+  const response = await fetch(`${apiUrl}/usuarios/${sucursal_id}/${query_params}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

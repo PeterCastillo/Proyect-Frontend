@@ -9,6 +9,7 @@ import { next } from "@/utils/nextPage";
 import UsuarioEdit from "./UsuarioEditableForm";
 import { clsx } from "@/lib/clsx";
 import { ISucusal } from "@/types/modulos/mantenimiento/sucursalInterfaces";
+import { getUsersBySucursalService } from "@/services/modulos/mantenimiento/usuarioServices";
 
 interface ITabUsuario {
   usuario: Usuario;
@@ -53,9 +54,16 @@ const TabUsuario: FC<ITabUsuario> = ({
     }
   };
 
-  const handleChangeSucursal = (e: FormEvent<HTMLSelectElement>) => {
+  const handleChangeSucursal = async (e: FormEvent<HTMLSelectElement>) => {
     const { value: sucrusal_id } = e.currentTarget;
-    console.log(sucrusal_id);
+    const response = await getUsersBySucursalService(
+      sucrusal_id == "ALL" ? usuario.sucursal_id : sucrusal_id,
+      usuario.token,
+      sucrusal_id == "ALL"
+    );
+    if (response.status == 200) {
+      setUsuariosList(response.json.content);
+    }
   };
 
   return (
@@ -93,6 +101,7 @@ const TabUsuario: FC<ITabUsuario> = ({
                       {item.sucursal.toUpperCase()}
                     </option>
                   ))}
+                  <option value="ALL">TODAS</option>
                 </select>
               </>
             )}
