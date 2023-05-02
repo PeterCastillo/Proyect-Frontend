@@ -60,6 +60,81 @@
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    .input_group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      div {
+        flex-grow: 1;
+        flex-shrink: 1;
+        flex-basis: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        position: relative;
+        label {
+          font-size: 1rem;
+        }
+        input,
+        select {
+          outline: none;
+          border: none;
+          padding: 0px 15px;
+          height: 35px;
+          border-radius: 5px;
+          border: solid 1px rgba(226, 226, 226, 0.5);
+          width: 100%;
+        }
+        span {
+          color: red;
+          font-size: 0.6rem;
+          text-transform: uppercase;
+          font-weight: 600;
+          position: absolute;
+          right: 0;
+          top: 100%;
+        }
+      }
+    }
+    .router_user {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      .section {
+        display: flex;
+        flex: 1 1 15rem;
+        display: flex;
+        flex-direction: column;
+        .title {
+          display: flex;
+          align-items: center;
+          width: 100%;
+          gap: 0.5rem;
+          div {
+            height: 1px;
+            background-color: rgba(226, 226, 226, 0.5);
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+          }
+        }
+        ul {
+          padding: 0rem;
+          margin: 0rem;
+          list-style: none;
+          li {
+            display: flex;
+            gap: 0.5rem;
+            user-select: none;
+            height: 30px;
+            label {
+              align-self: flex-end;
+              padding-bottom: 0.1rem;
+            }
+          }
+        }
+      }
+    }
   }
   .btns {
     padding-top: 1rem;

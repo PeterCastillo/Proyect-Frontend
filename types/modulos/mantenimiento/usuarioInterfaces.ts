@@ -15,6 +15,9 @@ export interface INewUsuario {
   sucursal_id: string;
 }
 
-export type UsuarioPropertiFilter = keyof Pick<IUsuario, {
-  [K in keyof IUsuario]: IUsuario[K] extends string ? K : never;
-}[keyof IUsuario]>;
+export type UsuarioPropertiFilter = keyof Pick<
+  IUsuario,
+  {
+    [K in keyof IUsuario]: IUsuario[K] extends string ? K : never;
+  }[keyof IUsuario]
+>;

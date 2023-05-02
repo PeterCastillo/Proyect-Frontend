@@ -3,10 +3,10 @@ import {
   IUsuario,
 } from "@/types/modulos/mantenimiento/usuarioInterfaces";
 import style from "../../../../app/mantenimiento/usuarios/page.module.scss";
-import Form from "@/components/commos/form/Form";
-import { FormEvent, useState } from "react";
 import { Usuario } from "@/types/auth/next-auth";
 import { ISucusal } from "@/types/modulos/mantenimiento/sucursalInterfaces";
+import { useForm } from "react-hook-form";
+import { sideBarOptions } from "@/utils/sideBarOptions";
 
 const UsuarioCreate = ({
   usuario,
@@ -17,33 +17,27 @@ const UsuarioCreate = ({
   sucursales: ISucusal[];
   handleAddUsuario: (newUsuario: IUsuario) => void;
 }) => {
-  const [required, setRequired] = useState(false);
-  const [newUsuario, setNewUsuario] = useState<INewUsuario>({
-    nombre: "",
-    correo: "",
-    contrasena: "",
-    accesos: [],
-    sucursal_id: usuario.sucursal_id,
+  const accesosUsuario = sideBarOptions(usuario.accesos);
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setValue,
+    getValues,
+    formState: { errors },
+  } = useForm<INewUsuario>({
+    defaultValues: {
+      sucursal_id: usuario.sucursal_id,
+      accesos: [],
+    },
   });
 
-  const handleInputChange = (
-    e: FormEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    const { value, name } = e.currentTarget;
-    setNewUsuario({
-      ...newUsuario,
-      [name]: value,
-    });
-  };
-
-  const handleCreate = () => {
-    setRequired(true);
+  const handleCreate = (userInfo: INewUsuario) => {
+    console.log(userInfo);
   };
 
   const handleReset = () => {
-    setRequired(false)
-    setNewUsuario({
-      ...newUsuario,
+    reset({
       nombre: "",
       correo: "",
       contrasena: "",
@@ -53,62 +47,108 @@ const UsuarioCreate = ({
 
   return (
     <div className={style.container_form}>
-      <form className={style.form}>
-        <Form
-          handleOnFieldChange={handleInputChange}
-          fields={[
-            [
-              {
-                label: "Sucursal",
-                name: "sucursal_id",
-                disabled: !usuario.accesos.includes("ADMIN"),
-                required: false,
-                type: "SELECT",
-                value: newUsuario.sucursal_id,
-                list: sucursales.map((item) => {
-                  return { value: item._id, name: item.sucursal };
-                }),
-              },
-            ],
-            [
-              {
-                label: "Nombre",
-                name: "nombre",
-                disabled: false,
-                required: required && newUsuario.nombre.trim().length == 0,
-                type: "INPUT",
-                value: newUsuario.nombre,
-              },
-            ],
-            [
-              {
-                label: "Correo",
-                name: "correo",
-                disabled: false,
-                required: required && newUsuario.correo.trim().length == 0,
-                type: "INPUT",
-                value: newUsuario.correo,
-              },
-            ],
-            [
-              {
-                label: "Contraseña",
-                name: "contrasena",
-                disabled: false,
-                required: required && newUsuario.contrasena.trim().length == 0,
-                type: "INPUT",
-                value: newUsuario.contrasena,
-              },
-            ],
-          ]}
-        />
+      <form onSubmit={handleSubmit(handleCreate)} className={style.form}>
+        <div className={style.input_group}>
+          <div>
+            <label htmlFor="">Nombre</label>
+            <select id="" {...register("sucursal_id")}>
+              {sucursales.map((item) => (
+                <option key={item._id} value={item._id}>
+                  {item.sucursal}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+        <div className={style.input_group}>
+          <div>
+            <label htmlFor="">Nombre</label>
+            <input
+              type="text"
+              {...register("nombre", {
+                required: {
+                  value: true,
+                  message: "Campo requerido",
+                },
+              })}
+            />
+            {errors.nombre && <span>{errors.nombre.message}</span>}
+          </div>
+        </div>
+        <div className={style.input_group}>
+          <div>
+            <label htmlFor="">Correo</label>
+            <input
+              type="text"
+              {...register("correo", {
+                required: {
+                  value: true,
+                  message: "Campo requerido",
+                },
+              })}
+            />
+            {errors.correo && <span>{errors.correo.message}</span>}
+          </div>
+        </div>
+        <div className={style.input_group}>
+          <div>
+            <label htmlFor="">Contraseña</label>
+            <input
+              type="text"
+              {...register("contrasena", {
+                required: {
+                  value: true,
+                  message: "Campo requerido",
+                },
+              })}
+            />
+            {errors.contrasena && <span>{errors.contrasena.message}</span>}
+          </div>
+        </div>
+        <div className={style.router_user}>
+          {accesosUsuario.map((item) => (
+            <div key={item.name} className={style.section}>
+              <div className={style.title}>
+                <div></div>
+                <span>{item.name}</span>
+                <div></div>
+              </div>
+              <ul>
+                {item.subMenu.map((item) => (
+                  <li key={item.name}>
+                    <input
+                      type="checkbox"
+                      id={item.name}
+                      onChange={(e) => {
+                        const isChecked = e.target.checked;
+                        const selectedValue = item.name;
+                        const previusValue = getValues("accesos");
+                        setValue(
+                          "accesos",
+                          isChecked
+                            ? [...previusValue, selectedValue]
+                            : previusValue.filter(
+                                (item) => item == selectedValue
+                              )
+                        );
+                      }}
+                    />
+                    <label htmlFor={item.name}>{item.name}</label>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+        <div className={style.btns}>
+          <button type="button" className={style.clean} onClick={handleReset}>
+            LIMPIAR
+          </button>
+          <button type="submit" className={style.done}>
+            CREAR
+          </button>
+        </div>
       </form>
-      <div className={style.btns}>
-        <button className={style.clean} onClick={handleReset}>
-          LIMPIAR
-        </button>
-        <button className={style.done} onClick={handleCreate}>CREAR</button>
-      </div>
     </div>
   );
 };

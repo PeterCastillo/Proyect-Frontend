@@ -1,6 +1,6 @@
 "use client";
 import { clsx } from "@/lib/clsx";
-import { INavOptions, sideBarOptions } from "@/utils/sideBarOptions";
+import { sideBarOptions } from "@/utils/sideBarOptions";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -16,10 +16,11 @@ import { AiOutlineDown } from "react-icons/ai";
 import { TbArrowsMoveVertical } from "react-icons/tb";
 import { RiLockPasswordLine } from "react-icons/ri";
 
-const NavBarOptions: INavOptions[] = sideBarOptions;
-
 const NavBar = () => {
   const { data: session } = useSession();
+  const NavBarOptions = sideBarOptions(
+    session?.user ? session?.user.accesos : []
+  );
   const [navBarExpanded, setNavBarExpanted] = useState(false);
   const [subMenuExpanded, setSubMenuExpanded] = useState(0);
   const { theme, setTheme } = useTheme();
@@ -50,46 +51,51 @@ const NavBar = () => {
       </div>
       {NavBarOptions.map((item, index) => {
         return (
-          <div key={item.name}>
-            <div
-              onClick={() => handleExpanded(index)}
-              className={clsx(isPathActive(item.name), style.modulo)}
-            >
-              <span className={style.icon_modulo}>{item.icon}</span>
-              <span className={clsx(`${!navBarExpanded && style.hidden}`)}>
-                {item.name}
-              </span>
-              <span
-                className={`${
-                  !navBarExpanded
-                    ? style.hidden
-                    : clsx(
-                        style.icon_modulo_drop,
-                        subMenuExpanded === index + 1 && style.icon_rotate
-                      )
-                }`}
+          item.subMenu.some((item) => item.acceso) && (
+            <div key={item.name}>
+              <div
+                onClick={() => handleExpanded(index)}
+                className={clsx(isPathActive(item.name), style.modulo)}
               >
-                <AiOutlineDown />
-              </span>
+                <span className={style.icon_modulo}>{item.icon}</span>
+                <span className={clsx(`${!navBarExpanded && style.hidden}`)}>
+                  {item.name}
+                </span>
+                <span
+                  className={`${
+                    !navBarExpanded
+                      ? style.hidden
+                      : clsx(
+                          style.icon_modulo_drop,
+                          subMenuExpanded === index + 1 && style.icon_rotate
+                        )
+                  }`}
+                >
+                  <AiOutlineDown />
+                </span>
+              </div>
+              <ul className={`${!navBarExpanded && style.hidden}`}>
+                {item.subMenu.map((item) => {
+                  return (
+                    item.acceso && (
+                      <li
+                        key={item.name}
+                        className={clsx(
+                          `${
+                            subMenuExpanded == index + 1 &&
+                            style.showsubmenuitem
+                          }`,
+                          isPathActive(item.name)
+                        )}
+                      >
+                        <Link href={`${item.url}`}>{item.name}</Link>
+                      </li>
+                    )
+                  );
+                })}
+              </ul>
             </div>
-            <ul className={`${!navBarExpanded && style.hidden}`}>
-              {item.subMenu.map((item) => {
-                return (
-                  <li
-                    key={item.name}
-                    className={clsx(
-                      `${
-                        subMenuExpanded == index + 1 && style.showsubmenuitem
-                      }`,
-                      isPathActive(item.name)
-                    )}
-                  >
-                    <Link href={`${item.url}`}>{item.name}</Link>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
+          )
         );
       })}
 
