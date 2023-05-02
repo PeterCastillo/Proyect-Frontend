@@ -153,7 +153,7 @@ const NavBar = () => {
               {session?.user.nombre}
             </span>
             <span className={`${!navBarExpanded && style.hidden}`}>
-              {session?.user.correo.toUpperCase()}
+              {session?.user.correo}
             </span>
           </div>
           <div className={style.drop_user_options}>
