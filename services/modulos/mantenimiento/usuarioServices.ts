@@ -8,7 +8,7 @@ export const getUsersBySucursalService = async (
   const query_params = new URLSearchParams({
     all: all.toString(),
   });
-  const response = await fetch(`${apiUrl}/usuarios/${sucursal_id}/${query_params}`, {
+  const response = await fetch(`${apiUrl}/usuarios/${sucursal_id}?${query_params}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
