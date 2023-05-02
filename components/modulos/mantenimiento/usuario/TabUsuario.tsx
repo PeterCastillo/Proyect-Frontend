@@ -92,7 +92,7 @@ const TabUsuario: FC<ITabUsuario> = ({
           handleEditUsuario={handleEditUsuario}
         >
           <>
-            {usuario.accesos.find((item) => item == "ADMIN") && (
+            {usuario.accesos.includes("ADMIN") && (
               <>
                 <span>SUCURSAL</span>
                 <select name="" id="" onChange={handleChangeSucursal}>
@@ -107,7 +107,11 @@ const TabUsuario: FC<ITabUsuario> = ({
             )}
           </>
         </UsuarioTable>
-        <UsuarioCreate handleAddUsuario={handleAddUsuario} />
+        <UsuarioCreate
+          usuario={usuario}
+          sucursales={sucursalesList}
+          handleAddUsuario={handleAddUsuario}
+        />
         <UsuarioEdit usuario={editableUsuario} />
       </div>
     </div>

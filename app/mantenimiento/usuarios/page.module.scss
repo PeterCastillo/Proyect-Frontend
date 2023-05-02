@@ -61,4 +61,36 @@
     flex-direction: column;
     gap: 0.5rem;
   }
+  .btns {
+    padding-top: 1rem;
+    display: flex;
+    gap: 0.5rem;
+    max-width: 40rem;
+    margin: auto;
+    justify-content: flex-end;
+    width: 100%;
+    button {
+      height: 40px;
+      padding: 10px;
+      text-transform: uppercase;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 5px;
+      &.clean {
+        background-color: #beb20a;
+        border: 1px solid rgba(226, 226, 226, 0.5);
+        color: #fff;
+      }
+      &.done {
+        background-color: #1b884e;
+        border: 1px solid rgba(226, 226, 226, 0.5);
+        color: #fff;
+      }
+      &.editar {
+        background-color: #1b884e;
+        border: 1px solid rgba(226, 226, 226, 0.5);
+        color: #fff;
+      }
+    }
+  }
 }

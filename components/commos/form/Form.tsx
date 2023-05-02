@@ -69,7 +69,6 @@ const Form = ({
                         disabled={item.disabled}
                         required={item.required}
                       >
-                        <option hidden></option>
                         {item.type == "SELECT" &&
                           item.list.map((item, index) => (
                             <option value={item.name} key={index}>
@@ -90,6 +89,9 @@ const Form = ({
                       />
                     ),
                   }[item.type]
+                }
+                {
+                  item.required && <span>Hola</span>
                 }
               </div>
             );
