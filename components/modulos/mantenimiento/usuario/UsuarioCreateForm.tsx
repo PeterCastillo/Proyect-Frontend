@@ -35,9 +35,7 @@ const UsuarioCreate = ({
 
   const handleCreate = async (userInfo: INewUsuario) => {
     const response = await createUserService(userInfo, usuario.token);
-    // console.log(userInfo)
     if (response.status === 201) {
-      console.log(response.json.content);
     }
   };
 

@@ -24,16 +24,23 @@ export const getUsersBySucursalService = async (
 };
 
 export const createUserService = async (data: INewUsuario, token: string) => {
-  console.log(`${apiUrl}/usuarios`, data);
-  const response = await fetch(`${apiUrl}/usuarios`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(data),
-  });
-  const status = response.status;
-  const json = await response.json();
-  return { json, status };
+  try {
+    const response = await fetch(`${apiUrl}/usuarios`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    });
+    const status = response.status;
+    const json = await response.json();
+    if (!response.ok) {
+      throw new Error(`${json.message}: ${json.content}`);
+    }
+    return { json, status };
+  } catch (error) {
+    console.log(error);
+    return { json: null, status: 500 };
+  }
 };
