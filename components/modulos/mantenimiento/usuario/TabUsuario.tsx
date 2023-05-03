@@ -10,6 +10,7 @@ import UsuarioEdit from "./UsuarioEditableForm";
 import { clsx } from "@/lib/clsx";
 import { ISucusal } from "@/types/modulos/mantenimiento/sucursalInterfaces";
 import { getUsersBySucursalService } from "@/services/modulos/mantenimiento/usuarioServices";
+import { Loader } from "@/components/commos/loader/Loader";
 
 interface ITabUsuario {
   usuario: Usuario;
@@ -23,7 +24,7 @@ const TabUsuario: FC<ITabUsuario> = ({
   sucursalesList,
 }) => {
   const refTabContainer = useRef<any>(null);
-
+  const [loader, setLoader] = useState(false);
   const [usuarios, setUsuariosList] = useState<IUsuario[]>(usuariosList);
   const [editableUsuario, setEditableUsuario] = useState<IUsuario>({
     _id: "",
@@ -34,7 +35,7 @@ const TabUsuario: FC<ITabUsuario> = ({
     sucursal_id: "",
   });
 
-  const handleAddUsuario = (newUsuario: IUsuario) => {
+  const handleAddNewUsuario = (newUsuario: IUsuario) => {
     setUsuariosList([...usuariosList, newUsuario]);
   };
 
@@ -56,6 +57,7 @@ const TabUsuario: FC<ITabUsuario> = ({
 
   const handleChangeSucursal = async (e: FormEvent<HTMLSelectElement>) => {
     const { value: sucrusal_id } = e.currentTarget;
+    setLoader(true);
     const response = await getUsersBySucursalService(
       sucrusal_id == "ALL" ? usuario.sucursal_id : sucrusal_id,
       usuario.token,
@@ -64,6 +66,11 @@ const TabUsuario: FC<ITabUsuario> = ({
     if (response.status === 200) {
       setUsuariosList(response.json.content);
     }
+    if (response.status === 404) {
+    }
+    if (response.status === 500) {
+    }
+    setLoader(false);
   };
 
   return (
@@ -110,10 +117,11 @@ const TabUsuario: FC<ITabUsuario> = ({
         <UsuarioCreate
           usuario={usuario}
           sucursales={sucursalesList}
-          handleAddUsuario={handleAddUsuario}
+          handleAddUsuario={handleAddNewUsuario}
         />
         <UsuarioEdit usuario={editableUsuario} />
       </div>
+      <Loader show={loader} />
     </div>
   );
 };
