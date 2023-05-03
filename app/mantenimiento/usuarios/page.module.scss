@@ -54,6 +54,7 @@
   overflow: hidden;
   min-width: 100%;
   transition: 200ms ease-out all;
+  margin-bottom: 0.5rem;
   .form {
     max-width: 40rem;
     margin: auto;
@@ -140,8 +141,8 @@
     padding-top: 1rem;
     display: flex;
     gap: 0.5rem;
-    max-width: 40rem;
     margin: auto;
+    width: 100%;
     justify-content: flex-end;
     button {
       height: 40px;

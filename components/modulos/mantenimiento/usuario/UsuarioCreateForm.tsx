@@ -7,6 +7,7 @@ import { Usuario } from "@/types/auth/next-auth";
 import { ISucusal } from "@/types/modulos/mantenimiento/sucursalInterfaces";
 import { useForm } from "react-hook-form";
 import { sideBarOptions } from "@/utils/sideBarOptions";
+import { createUserService } from "@/services/modulos/mantenimiento/usuarioServices";
 
 const UsuarioCreate = ({
   usuario,
@@ -32,8 +33,12 @@ const UsuarioCreate = ({
     },
   });
 
-  const handleCreate = (userInfo: INewUsuario) => {
-    console.log(userInfo);
+  const handleCreate = async (userInfo: INewUsuario) => {
+    const response = await createUserService(userInfo, usuario.token);
+    // console.log(userInfo)
+    if (response.status === 201) {
+      console.log(response.json.content);
+    }
   };
 
   const handleReset = () => {
@@ -139,6 +144,35 @@ const UsuarioCreate = ({
               </ul>
             </div>
           ))}
+          {usuario.accesos.includes("ADMIN") && (
+            <div className={style.section}>
+              <div className={style.title}>
+                <div></div>
+                <span>Rol</span>
+                <div></div>
+              </div>
+              <ul>
+                <li>
+                  <input
+                    type="checkbox"
+                    id="ADMIN"
+                    onChange={(e) => {
+                      const isChecked = e.target.checked;
+                      const selectedValue = "ADMIN";
+                      const previusValue = getValues("accesos");
+                      setValue(
+                        "accesos",
+                        isChecked
+                          ? [...previusValue, selectedValue]
+                          : previusValue.filter((item) => item == selectedValue)
+                      );
+                    }}
+                  />
+                  <label htmlFor={"ADMIN"}>Admin</label>
+                </li>
+              </ul>
+            </div>
+          )}
         </div>
         <div className={style.btns}>
           <button type="button" className={style.clean} onClick={handleReset}>

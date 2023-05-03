@@ -61,7 +61,7 @@ const TabUsuario: FC<ITabUsuario> = ({
       usuario.token,
       sucrusal_id == "ALL"
     );
-    if (response.status == 200) {
+    if (response.status === 200) {
       setUsuariosList(response.json.content);
     }
   };
