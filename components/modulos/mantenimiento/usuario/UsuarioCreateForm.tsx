@@ -1,8 +1,8 @@
+import style from "../../../../app/mantenimiento/usuarios/page.module.scss";
 import {
   INewUsuario,
   IUsuario,
 } from "@/types/modulos/mantenimiento/usuarioInterfaces";
-import style from "../../../../app/mantenimiento/usuarios/page.module.scss";
 import { Usuario } from "@/types/auth/next-auth";
 import { ISucusal } from "@/types/modulos/mantenimiento/sucursalInterfaces";
 import { useForm } from "react-hook-form";
@@ -13,10 +13,12 @@ const UsuarioCreate = ({
   usuario,
   sucursales,
   handleAddUsuario,
+  setLoader
 }: {
   usuario: Usuario;
   sucursales: ISucusal[];
   handleAddUsuario: (newUsuario: IUsuario) => void;
+  setLoader: (state: boolean) => void
 }) => {
   const accesosUsuario = sideBarOptions(usuario.accesos);
   const {
@@ -33,12 +35,6 @@ const UsuarioCreate = ({
     },
   });
 
-  const handleCreate = async (userInfo: INewUsuario) => {
-    const response = await createUserService(userInfo, usuario.token);
-    if (response.status === 201) {
-    }
-  };
-
   const handleReset = () => {
     reset({
       nombre: "",
@@ -46,6 +42,20 @@ const UsuarioCreate = ({
       contrasena: "",
       accesos: [],
     });
+  };
+
+  const handleCreate = async (userInfo: INewUsuario) => {
+    setLoader(true)
+    const response = await createUserService(userInfo, usuario.token);
+    if (response.status === 201) {
+      handleAddUsuario(response.json.content)
+      handleReset()
+    }
+    if (response.status === 404) {
+    }
+    if (response.status === 500) {
+    }
+    setLoader(false)
   };
 
   return (

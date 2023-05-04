@@ -1,4 +1,4 @@
-import { INewUsuario } from "@/types/modulos/mantenimiento/usuarioInterfaces";
+import { INewUsuario, IUsuario } from "@/types/modulos/mantenimiento/usuarioInterfaces";
 
 const apiUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
@@ -16,6 +16,7 @@ export const getUsersBySucursalService = async (
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      cache: 'no-store'
     }
   );
   const status = response.status;
@@ -27,6 +28,28 @@ export const createUserService = async (data: INewUsuario, token: string) => {
   try {
     const response = await fetch(`${apiUrl}/usuarios`, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    });
+    const status = response.status;
+    const json = await response.json();
+    if (!response.ok) {
+      throw new Error(`${json.message}: ${json.content}`);
+    }
+    return { json, status };
+  } catch (error) {
+    console.log(error);
+    return { json: null, status: 500 };
+  }
+};
+
+export const editUserService = async (data: IUsuario, token: string) => {
+  try {
+    const response = await fetch(`${apiUrl}/usuarios/${data._id}`, {
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,

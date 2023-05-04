@@ -48,7 +48,7 @@ const TabUsuario: FC<ITabUsuario> = ({
   };
 
   const handleEditUsuario = (usuarioToEdit_id: string) => {
-    const usuario = usuariosList.find((item) => item._id == usuarioToEdit_id);
+    const usuario = usuarios.find((item) => item._id == usuarioToEdit_id);
     if (usuario) {
       setEditableUsuario(usuario);
       next(2, refTabContainer);
@@ -118,8 +118,9 @@ const TabUsuario: FC<ITabUsuario> = ({
           usuario={usuario}
           sucursales={sucursalesList}
           handleAddUsuario={handleAddNewUsuario}
+          setLoader={setLoader}
         />
-        <UsuarioEdit usuario={editableUsuario} />
+        <UsuarioEdit editableUsuario={editableUsuario}  usuario={usuario} sucursales={sucursalesList} handleSetNewInfoUsuario={handleSetNewInfoUsuario} setLoader={setLoader}/>
       </div>
       <Loader show={loader} />
     </div>

@@ -8,7 +8,8 @@ export const getSucursalesBySucursalService = async (
     headers: {
       Authorization: `Bearer ${token}`,
     },
-  });
+    cache: 'no-store'
+  }, );
   const status = response.status;
   const json = await response.json();
   return { json, status };
