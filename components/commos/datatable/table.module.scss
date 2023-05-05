@@ -56,6 +56,26 @@
       border-top: none;
       border-right: none;
       border-left: none;
+      .edit {
+        @include theme() {
+          background-color: theme-get("bg-color-tb");
+        }
+        font-size: 0.8rem;
+        border-radius: 5px;
+        font-weight: 550;
+        outline: none;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+        border: 1px solid rgba(226, 226, 226, 0.5);
+        &:hover {
+          @include theme() {
+            transition: all 150ms ease-in-out;
+            background-color: theme-get("bg-color-nv");
+            color: white;
+          }
+        }
+      }
     }
     .item {
       text-align: center;
@@ -83,7 +103,6 @@
           td {
             transition: all 0.1s ease-in-out;
             background-color: rgba(226, 226, 226, 0.5);
-            cursor: pointer;
           }
           &:last-child {
             td {

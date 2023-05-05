@@ -2,8 +2,6 @@
 
 $themes: (
   dark: (
-    "text-color": $color-text-dark,
-    "bg-color": $color-bg-dark,
     /*NAVBAR*/
     "bg-color-nv": $color-bg-dark-nv,
     "text-color-nv": $color-text-dark-nv,
@@ -13,8 +11,6 @@ $themes: (
     "bg-color-boder-tb": $color-border-dark-tb
   ),
   light: (
-    "text-color": $color-text-light,
-    "bg-color": $color-bg-light,
     /*NAVBAR*/
     "bg-color-nv": $color-bg-light-nv,
     "text-color-nv": $color-text-light-nv,

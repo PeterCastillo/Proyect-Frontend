@@ -51,29 +51,29 @@ const Table = ({
         return (
           <tr
             key={index}
-            className={`${values.every(item => item === "") && style.empty}`}
+            className={`${values.every((item) => item === "") && style.empty}`}
           >
             <td className={style.item}>
-              {values.every(item => item === "") ? "ㅤ" : index + 1}
+              {values.every((item) => item === "") ? "ㅤ" : index + 1}
             </td>
             {values.map((value, index) => {
-              if (typeof value === "boolean") {
-                return (
-                  <td key={index}>
-                    <button>Hola</button>
-                  </td>
-                );
-              }
-              if (typeof value != "string") {
-                return (
-                  <td key={index}>
-                    <select name="" id=""></select>
-                  </td>
-                );
-              }
-              return <td key={index}>{value}</td>;
+              return (
+                <td key={index}>
+                  {
+                    {
+                      boolean: <button>Hola</button>,
+                      object: <select name="" id=""></select>,
+                      string: value,
+                    }[typeof value as "string" | "boolean" | "object"]
+                  }
+                </td>
+              );
             })}
-            <td><button onClick={()=> handleEdit(item._id)}>Editar</button></td>
+            <td>
+              {!values.every((item) => item === "") && (
+                <button onClick={() => handleEdit(item._id)} className={style.edit}>Editar</button>
+              )}
+            </td>
           </tr>
         );
       })
@@ -87,7 +87,7 @@ const Table = ({
             <tr>
               <th className={style.item}>ITEM</th>
               {renderThead()}
-              <th>EDITAR</th>
+              <th style={{ textAlign: `center` }}>EDITAR</th>
             </tr>
           </thead>
           <tbody>{renderTBody()}</tbody>

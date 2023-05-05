@@ -90,9 +90,6 @@ const Form = ({
                     ),
                   }[item.type]
                 }
-                {
-                  item.required && <span>Hola</span>
-                }
               </div>
             );
           })}

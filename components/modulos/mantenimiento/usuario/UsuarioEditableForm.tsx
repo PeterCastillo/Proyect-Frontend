@@ -12,12 +12,14 @@ const UsuarioEdit = ({
   sucursales,
   editableUsuario,
   handleSetNewInfoUsuario,
+  handleDeleteUsuario,
   setLoader,
 }: {
   usuario: Usuario;
   sucursales: ISucusal[];
   editableUsuario: IUsuario;
   handleSetNewInfoUsuario: (newUserInfo: IUsuario) => void;
+  handleDeleteUsuario: () => void
   setLoader: (state: boolean) => void;
 }) => {
   const accesosUsuario = sideBarOptions(usuario.accesos);
@@ -34,14 +36,7 @@ const UsuarioEdit = ({
   });
 
   const handleReset = () => {
-    reset({
-      _id: editableUsuario._id,
-      nombre: editableUsuario.nombre,
-      correo: editableUsuario.correo,
-      accesos: editableUsuario.accesos,
-      contrasena: "",
-      sucursal_id: editableUsuario.sucursal_id,
-    });
+    reset({ ...editableUsuario, contrasena: "" });
   };
 
   const handleEdit = async (userInfo: IUsuario) => {
@@ -49,7 +44,6 @@ const UsuarioEdit = ({
     const response = await editUserService(userInfo, usuario.token);
     if (response.status === 200) {
       handleSetNewInfoUsuario(response.json.content);
-      console.log(response.json.content);
     }
     if (response.status === 404) {
     }
@@ -57,6 +51,12 @@ const UsuarioEdit = ({
     }
     setLoader(false);
   };
+
+  const handleDelete =async () => {
+    setLoader(false);
+    handleDeleteUsuario()
+    setLoader(true);
+  }
 
   useEffect(() => {
     handleReset();
@@ -189,11 +189,14 @@ const UsuarioEdit = ({
           )}
         </div>
         <div className={style.btns}>
+          <button type="button" className={style.delete} onClick={handleDelete}>
+            ELIMINAR
+          </button>
           <button type="button" className={style.clean} onClick={handleReset}>
             LIMPIAR
           </button>
           <button type="submit" className={style.done}>
-            CREAR
+            EDITAR
           </button>
         </div>
       </form>

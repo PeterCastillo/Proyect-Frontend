@@ -4,7 +4,7 @@ export const getSucursalesBySucursalService = async (
   sucursal_id: string,
   token: string
 ) => {
-  const response = await fetch(`${apiUrl}/sucursales_empresa/${sucursal_id}`, {
+  const response = await fetch(`${apiUrl}/sucursales_activas/${sucursal_id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

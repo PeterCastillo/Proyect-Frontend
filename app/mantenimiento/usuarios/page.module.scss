@@ -87,7 +87,7 @@
           width: 100%;
         }
         span {
-          color: red;
+          color: rgb(177, 27, 27);
           font-size: 0.6rem;
           text-transform: uppercase;
           font-weight: 600;
@@ -163,6 +163,11 @@
       }
       &.editar {
         background-color: #1b884e;
+        border: 1px solid rgba(226, 226, 226, 0.5);
+        color: #fff;
+      }
+      &.delete {
+        background-color: rgb(177, 27, 27);
         border: 1px solid rgba(226, 226, 226, 0.5);
         color: #fff;
       }

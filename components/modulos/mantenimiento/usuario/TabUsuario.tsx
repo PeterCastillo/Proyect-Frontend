@@ -36,15 +36,20 @@ const TabUsuario: FC<ITabUsuario> = ({
   });
 
   const handleAddNewUsuario = (newUsuario: IUsuario) => {
-    setUsuariosList([...usuariosList, newUsuario]);
+    setUsuariosList([...usuarios, newUsuario]);
   };
 
   const handleSetNewInfoUsuario = (newInfoUsuario: IUsuario) => {
     setUsuariosList(
-      usuariosList.map((item) =>
+      usuarios.map((item) =>
         item._id == newInfoUsuario._id ? newInfoUsuario : item
       )
     );
+  };
+
+  const handleDeleteUsuario = () => {
+    setUsuariosList(usuarios.filter((item) => item._id != editableUsuario._id));
+    next(0, refTabContainer);
   };
 
   const handleEditUsuario = (usuarioToEdit_id: string) => {
@@ -54,7 +59,8 @@ const TabUsuario: FC<ITabUsuario> = ({
       next(2, refTabContainer);
     }
   };
-
+  
+  console.log("hola")
   const handleChangeSucursal = async (e: FormEvent<HTMLSelectElement>) => {
     const { value: sucrusal_id } = e.currentTarget;
     setLoader(true);
@@ -120,7 +126,14 @@ const TabUsuario: FC<ITabUsuario> = ({
           handleAddUsuario={handleAddNewUsuario}
           setLoader={setLoader}
         />
-        <UsuarioEdit editableUsuario={editableUsuario}  usuario={usuario} sucursales={sucursalesList} handleSetNewInfoUsuario={handleSetNewInfoUsuario} setLoader={setLoader}/>
+        <UsuarioEdit
+          editableUsuario={editableUsuario}
+          usuario={usuario}
+          sucursales={sucursalesList}
+          handleSetNewInfoUsuario={handleSetNewInfoUsuario}
+          handleDeleteUsuario={handleDeleteUsuario}
+          setLoader={setLoader}
+        />
       </div>
       <Loader show={loader} />
     </div>
