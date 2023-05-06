@@ -1,4 +1,7 @@
-import { INewUsuario, IUsuario } from "@/types/modulos/mantenimiento/usuarioInterfaces";
+import {
+  INewUsuario,
+  IUsuario,
+} from "@/types/modulos/mantenimiento/usuarioInterfaces";
 
 const apiUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
@@ -7,21 +10,29 @@ export const getUsersBySucursalService = async (
   token: string,
   all: boolean = false
 ) => {
-  const query_params = new URLSearchParams({
-    all: all.toString(),
-  });
-  const response = await fetch(
-    `${apiUrl}/usuarios/${sucursal_id}?${query_params}`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      cache: 'no-store'
+  try {
+    const query_params = new URLSearchParams({
+      all: all.toString(),
+    });
+    const response = await fetch(
+      `${apiUrl}/usuarios/${sucursal_id}?${query_params}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        cache: "no-store",
+      }
+    );
+    const status = response.status;
+    const json = await response.json();
+    if (!response.ok) {
+      throw new Error(`${json.message}: ${json.content}`);
     }
-  );
-  const status = response.status;
-  const json = await response.json();
-  return { json, status };
+    return { json, status };
+  } catch (error) {
+    console.log(error);
+    return { json: { content: [] }, status: 500 };
+  }
 };
 
 export const createUserService = async (data: INewUsuario, token: string) => {
@@ -37,12 +48,16 @@ export const createUserService = async (data: INewUsuario, token: string) => {
     const status = response.status;
     const json = await response.json();
     if (!response.ok) {
-      throw new Error(`${json.message}: ${json.content}`);
+      throw {
+        name: "MyError",
+        message: `${json.message}: ${json.content} - status:${response.status}`,
+        status: response.status,
+      };
     }
     return { json, status };
-  } catch (error) {
-    console.log(error);
-    return { json: null, status: 500 };
+  } catch (error: any) {
+    console.log(error.message);
+    return { json: null, status: error.status || 500 };
   }
 };
 
@@ -55,6 +70,30 @@ export const editUserService = async (data: IUsuario, token: string) => {
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(data),
+    });
+    const status = response.status;
+    const json = await response.json();
+    if (!response.ok) {
+      throw {
+        name: "MyError",
+        message: `${json.message}: ${json.content} - status:${response.status}`,
+        status: response.status,
+      };
+    }
+    return { json, status };
+  } catch (error: any) {
+    console.log(error.message);
+    return { json: null, status: error.status || 500 };
+  }
+};
+
+export const deleteUserService = async (data: string, token: string) => {
+  try {
+    const response = await fetch(`${apiUrl}/usuarios/${data}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
     const status = response.status;
     const json = await response.json();

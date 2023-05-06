@@ -11,6 +11,9 @@ import { clsx } from "@/lib/clsx";
 import { ISucusal } from "@/types/modulos/mantenimiento/sucursalInterfaces";
 import { getUsersBySucursalService } from "@/services/modulos/mantenimiento/usuarioServices";
 import { Loader } from "@/components/commos/loader/Loader";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useTheme } from "next-themes";
 
 interface ITabUsuario {
   usuario: Usuario;
@@ -24,6 +27,7 @@ const TabUsuario: FC<ITabUsuario> = ({
   sucursalesList,
 }) => {
   const refTabContainer = useRef<any>(null);
+  const { theme } = useTheme();
   const [loader, setLoader] = useState(false);
   const [usuarios, setUsuariosList] = useState<IUsuario[]>(usuariosList);
   const [editableUsuario, setEditableUsuario] = useState<IUsuario>({
@@ -59,8 +63,7 @@ const TabUsuario: FC<ITabUsuario> = ({
       next(2, refTabContainer);
     }
   };
-  
-  console.log("hola")
+
   const handleChangeSucursal = async (e: FormEvent<HTMLSelectElement>) => {
     const { value: sucrusal_id } = e.currentTarget;
     setLoader(true);
@@ -69,14 +72,14 @@ const TabUsuario: FC<ITabUsuario> = ({
       usuario.token,
       sucrusal_id == "ALL"
     );
+    setLoader(false);
     if (response.status === 200) {
       setUsuariosList(response.json.content);
+      toast.success("Usuarios cargados exitosamente", { autoClose: 1000 });
     }
-    if (response.status === 404) {
+    if (response.status === 500 || response.status === 404) {
+      toast.error("Error al cargar usuarios", { autoClose: 3000 });
     }
-    if (response.status === 500) {
-    }
-    setLoader(false);
   };
 
   return (
@@ -136,6 +139,13 @@ const TabUsuario: FC<ITabUsuario> = ({
         />
       </div>
       <Loader show={loader} />
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        pauseOnHover={false}
+        theme={theme === "dark" ? "dark" : "light"}
+      />
     </div>
   );
 };

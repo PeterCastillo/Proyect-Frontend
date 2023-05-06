@@ -1,4 +1,7 @@
-import { editUserService } from "@/services/modulos/mantenimiento/usuarioServices";
+import {
+  deleteUserService,
+  editUserService,
+} from "@/services/modulos/mantenimiento/usuarioServices";
 import style from "../../../../app/mantenimiento/usuarios/page.module.scss";
 import { IUsuario } from "@/types/modulos/mantenimiento/usuarioInterfaces";
 import { sideBarOptions } from "@/utils/sideBarOptions";
@@ -6,6 +9,7 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { ISucusal } from "@/types/modulos/mantenimiento/sucursalInterfaces";
 import { Usuario } from "@/types/auth/next-auth";
+import { toast } from "react-toastify";
 
 const UsuarioEdit = ({
   usuario,
@@ -19,7 +23,7 @@ const UsuarioEdit = ({
   sucursales: ISucusal[];
   editableUsuario: IUsuario;
   handleSetNewInfoUsuario: (newUserInfo: IUsuario) => void;
-  handleDeleteUsuario: () => void
+  handleDeleteUsuario: () => void;
   setLoader: (state: boolean) => void;
 }) => {
   const accesosUsuario = sideBarOptions(usuario.accesos);
@@ -42,21 +46,34 @@ const UsuarioEdit = ({
   const handleEdit = async (userInfo: IUsuario) => {
     setLoader(true);
     const response = await editUserService(userInfo, usuario.token);
+    setLoader(false);
     if (response.status === 200) {
       handleSetNewInfoUsuario(response.json.content);
+      toast.success("Usuario editado con exito");
     }
-    if (response.status === 404) {
+    if (response.status === 409) {
+      toast.warning("Correo registro");
     }
-    if (response.status === 500) {
+    if (response.status === 500 || response.status === 404) {
+      toast.error("Error al editar usuario");
+    }
+  };
+
+  const handleDelete = async () => {
+    setLoader(true);
+    const response = await deleteUserService(
+      editableUsuario._id,
+      usuario.token
+    );
+    if (response.status === 200) {
+      handleDeleteUsuario();
+      toast.success("Usuario eliminado con exito");
+    }
+    if (response.status === 500 || response.status === 404) {
+      toast.error("Error al eliminar usuario");
     }
     setLoader(false);
   };
-
-  const handleDelete =async () => {
-    setLoader(false);
-    handleDeleteUsuario()
-    setLoader(true);
-  }
 
   useEffect(() => {
     handleReset();

@@ -8,6 +8,7 @@ import { ISucusal } from "@/types/modulos/mantenimiento/sucursalInterfaces";
 import { useForm } from "react-hook-form";
 import { sideBarOptions } from "@/utils/sideBarOptions";
 import { createUserService } from "@/services/modulos/mantenimiento/usuarioServices";
+import { toast } from "react-toastify";
 
 const UsuarioCreate = ({
   usuario,
@@ -47,15 +48,18 @@ const UsuarioCreate = ({
   const handleCreate = async (userInfo: INewUsuario) => {
     setLoader(true)
     const response = await createUserService(userInfo, usuario.token);
+    setLoader(false)
     if (response.status === 201) {
       handleAddUsuario(response.json.content)
+      toast.success("Usuario creado con exito");
       handleReset()
     }
-    if (response.status === 404) {
+    if (response.status === 409) {
+      toast.warning("Correo registro");
     }
     if (response.status === 500) {
+      toast.error("Error al crear usuario");
     }
-    setLoader(false)
   };
 
   return (
