@@ -17,11 +17,15 @@ export const getSucursalesBySucursalService = async (
     const status = response.status;
     const json = await response.json();
     if (!response.ok) {
-      throw new Error(`${json.message}: ${json.content}`);
+      throw {
+        name: "MyError",
+        message: `${json.message}: ${json.content} - status:${response.status}`,
+        status: response.status,
+      };
     }
     return { json, status };
-  } catch (error) {
-    console.log(error);
-    return { json: { content: [] }, status: 500 };
+  } catch (error:any) {
+    console.log(error.message);
+    return { json: { content: [] }, status: error.status || 500 };
   }
 };
